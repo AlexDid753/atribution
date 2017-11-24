@@ -10,7 +10,7 @@
         <th><%= activity.id %></th>
         <th><%= link_to activity.title, activity %></th>
         <th><%= activity.visitors.count %></th>
-        <th><%= (activity.apru * activity.visitors.count).round %></th>
+        <th><%= activity.proceeds %></th>
       </tr>
   <% end %>
 </table>

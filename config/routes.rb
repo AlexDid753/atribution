@@ -1,8 +1,11 @@
 Rails.application.routes.draw do
+
+
   root  'activities#index'
   get "statistic" => "statistic#show"
 
   resources :activities
+  resources :mediums
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
