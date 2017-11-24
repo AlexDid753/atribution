@@ -3,6 +3,7 @@ gem 'rails', '4.2.9'
 gem 'puma'
 gem 'newrelic_rpm'
 gem 'rake', '< 11.0'
+gem 'faker', '1.1.2'
 group :development, :test do
   gem 'sqlite3'
   gem 'rspec-rails', '~> 2.14', '>= 2.14.2'
