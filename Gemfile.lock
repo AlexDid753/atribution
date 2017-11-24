@@ -86,6 +86,7 @@ GEM
     mini_portile2 (2.3.0)
     minitest (5.10.3)
     multi_json (1.12.2)
+    newrelic_rpm (4.6.0.338)
     nokogiri (1.8.1)
       mini_portile2 (~> 2.3.0)
     pg (0.21.0)
@@ -123,7 +124,7 @@ GEM
       activesupport (= 4.2.9)
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
-    rake (12.3.0)
+    rake (10.5.0)
     rb-fsevent (0.10.2)
     rb-inotify (0.9.10)
       ffi (>= 0.5.0, < 2)
@@ -198,10 +199,12 @@ DEPENDENCIES
   coffee-rails (~> 4.1.0)
   jbuilder (~> 2.0)
   jquery-rails
+  newrelic_rpm
   pg
   puma
   rails (= 4.2.9)
   rails_12factor (~> 0.0.3)
+  rake (< 11.0)
   rspec-rails (~> 2.14, >= 2.14.2)
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
