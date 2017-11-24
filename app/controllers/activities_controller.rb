@@ -1,4 +1,5 @@
 class ActivitiesController < ApplicationController
-  def show
+  def index
+    @activities = Activity.paginate(page: params[:page])
   end
 end

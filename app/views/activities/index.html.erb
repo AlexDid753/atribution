@@ -1,0 +1,18 @@
+<table>
+  <tr>
+    <th>ID</th>
+    <th>Экскурсия</th>
+    <th>Количество посетителей</th>
+    <th>Суммарная выручка</th>
+  </tr>
+  <% @activities.each do |activity| %>
+      <tr>
+        <th><%= activity.id %></th>
+        <th><%= link_to activity.title, activity %></th>
+        <th><%= activity.visitors.count %></th>
+        <th><%= (activity.apru * activity.visitors.count).round %></th>
+      </tr>
+  <% end %>
+</table>
+<%= will_paginate %>
+#debug activity.visitors
