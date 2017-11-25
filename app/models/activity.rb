@@ -12,17 +12,35 @@ class Activity < ActiveRecord::Base
   end
 
   def find_mediums
-    histories.find_by(activity_id: id) # TODO: находит первую запись, а надо чтобы находил
-                                        # TODO: все и выводил данные в тублицу по всем каналам.
-                                        # TODO: поставить where и изменить для обработки нескольких каналов
+    histories.where(activity_id: id)
   end
 
   def medium_title
-    mediums.find_by(find_mediums.medium_id).title
+    mediums.find_by(find_mediums.first.medium_id).title
+    # case who_win
+    #   when 1
+    #     mediums.find_by(find_mediums.first.medium_id).title
+    #   when 2
+    #     mediums.find_by(find_mediums.last.medium_id).title
+    #   when 3
+        #mediums.find_by(find_mediums.last.medium_id).title
+    # end
   end
 
-  def mediums_count
-    History.where(medium_id: find_mediums.medium_id, activity_id: id).count
+  def mediums_count(who_win = 1)
+    if (who_win.nil?)
+      who_win = 1
+    end
+
+    case who_win
+      when 1
+        History.where(medium_id: find_mediums.first.medium_id, activity_id: id).count
+      when 2
+        History.where(medium_id: find_mediums.last.medium_id, activity_id: id).count
+      else
+        #History.where(medium_id: find_mediums.first.medium_id, activity_id: id).count
+    end
+
   end
 
   def mediums_proceed
