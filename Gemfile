@@ -27,7 +27,7 @@ gem 'uglifier', '>= 1.3.0'
 gem 'bootstrap-sass', '3.2.0.0'
 gem 'coffee-rails', '~> 4.1.0'
 gem 'jquery-rails'
-
+gem 'filterrific'
 gem 'turbolinks'
 
 gem 'jbuilder', '~> 2.0'
@@ -35,7 +35,7 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 
 gem 'bootstrap-will_paginate', '0.0.10'
-gem 'will_paginate',           '3.0.7'
+gem 'will_paginate', '~> 3.0.5'
 
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views

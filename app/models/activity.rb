@@ -12,8 +12,9 @@ class Activity < ActiveRecord::Base
   end
 
   def find_mediums
-    histories.find_by(activity_id: id) # TODO: находит первую запись, а надо чтобы находил все и выводил данные в тублицу по всем каналам
-
+    histories.find_by(activity_id: id) # TODO: находит первую запись, а надо чтобы находил
+                                        # TODO: все и выводил данные в тублицу по всем каналам.
+                                        # TODO: поставить where и изменить для обработки нескольких каналов
   end
 
   def medium_title
@@ -26,5 +27,13 @@ class Activity < ActiveRecord::Base
 
   def mediums_proceed
     (apru * mediums_count).round
+  end
+
+  def self.search(search)
+    if search
+      where('title LIKE ?', "%#{search}%")
+    else
+      all
+    end
   end
 end
