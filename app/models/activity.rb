@@ -13,6 +13,7 @@ class Activity < ActiveRecord::Base
 
   def find_mediums
     histories.find_by(activity_id: id) # TODO: находит первую запись, а надо чтобы находил все и выводил данные в тублицу по всем каналам
+
   end
 
   def medium_title
