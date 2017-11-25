@@ -6,7 +6,7 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-visitors
+#visitors
 3000.times do
   Visitor.create!()
 end
@@ -24,6 +24,7 @@ Medium.create!(title: "email")
       apru: apru
   )
 end
+
 #histories
 visitors1 = Visitor.where(id: 1..1200)
 visitors2 = Visitor.where(id: 1201..2100)
@@ -33,4 +34,18 @@ visitors4 = Visitor.where(id: 2701..3000)
 mediums = Medium.all
 activities = Activity.all
 
-visitors1.each { |visitor| visitor.visit_activity(mediums.find(rand(1..4)), activities.find(rand(1..100))) }
+#visit_activities
+visitors1.each {|visitor| visitor.visit_activity(mediums.find(rand(1..4)), activities.find(rand(1..100)))}
+visitors2.each {|visitor|
+  for i in 0..1
+    visitor.visit_activity(mediums.find(rand(1..4)), activities.find(rand(1..100)))
+  end}
+
+visitors3.each {|visitor|
+  for i in 0..2
+    visitor.visit_activity(mediums.find(rand(1..4)), activities.find(rand(1..100)))
+  end}
+visitors4.each {|visitor|
+  for i in 0..3
+    visitor.visit_activity(mediums.find(rand(1..4)), activities.find(rand(1..100)))
+  end}
