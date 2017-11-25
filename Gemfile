@@ -1,6 +1,9 @@
 source 'https://rubygems.org'
 gem 'rails', '4.2.9'
 gem 'puma'
+gem 'newrelic_rpm'
+gem 'rake', '< 11.0'
+gem 'faker', '1.1.2'
 group :development, :test do
   gem 'sqlite3'
   gem 'rspec-rails', '~> 2.14', '>= 2.14.2'
@@ -30,6 +33,9 @@ gem 'turbolinks'
 gem 'jbuilder', '~> 2.0'
 
 gem 'sdoc', '~> 0.4.0', group: :doc
+
+gem 'will_paginate',           '3.0.7'
+gem 'bootstrap-will_paginate', '0.0.10'
 
 
 group :development do
