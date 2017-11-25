@@ -2,7 +2,7 @@ Rails.application.routes.draw do
 
 
   root  'activities#index'
-  get "statistic" => "statistic#show"
+  get "statistic" => "activities#statistics"
 
   resources :activities
   resources :mediums

@@ -1,0 +1,19 @@
+<table>
+  <tr>
+    <th>ID</th>
+    <th>Экскурсия</th>
+    <th>Канал</th>
+    <th>Количество посетителей</th>
+    <th>Выручка</th>
+  </tr>
+  <% @activities.each do |activity| %>
+      <tr>
+        <th><%= activity.id %></th>
+        <th><%= link_to activity.title, activity %></th>
+        <th><%= activity.medium_title %></th>
+        <th><%= activity.visitors.count %></th>
+        <th><%= activity.mediums_proceed %></th>
+      </tr>
+  <% end %>
+</table>
+<%= will_paginate %>
