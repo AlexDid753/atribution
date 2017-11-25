@@ -1,5 +1,11 @@
 <h1>Каналы</h1>
-<table>
+<table class="table-bordered table-hover mediums">
+  <tr>
+    <th>ID</th>
+    <th>Наименование канала</th>
+    <th>Количество посетителей</th>
+    <th>Суммарная выручка</th>
+  </tr>
   <% @mediums.each do |medium| %>
       <tr>
         <th><%= medium.id %></th>

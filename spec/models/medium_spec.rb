@@ -1,5 +1,9 @@
 require 'spec_helper'
 
 describe Medium do
-  pending "add some examples to (or delete) #{__FILE__}"
+  before(:all) do
+    @medium = Medium.new(title: 'cpc')
+  end
+
+  it {should respond_to (:title)}
 end

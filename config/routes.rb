@@ -1,8 +1,6 @@
 Rails.application.routes.draw do
-
-
-  root  'activities#index'
-  get "statistic" => "statistic#show"
+  root 'activities#index'
+  get 'statistic' => 'activities#statistics'
 
   resources :activities
   resources :mediums
