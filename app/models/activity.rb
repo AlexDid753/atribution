@@ -22,7 +22,7 @@ class Activity < ActiveRecord::Base
   end
 
   def mediums_count
-    History.where(medium_id: find_mediums.medium_id).count
+    History.where(medium_id: find_mediums.medium_id, activity_id: id).count
   end
 
   def mediums_proceed

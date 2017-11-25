@@ -38,17 +38,17 @@ activities = Activity.all
 visitors1.each { |visitor| visitor.visit_activity(mediums.find(rand(1..4)), activities.find(rand(1..100))) }
 visitors2.each do |visitor|
   for i in 0..1
-    visitor.visit_activity(mediums.find(rand(1..4)), activities.find(rand(1..100)))
+    visitor.visit_activity(mediums.find(i+1), activities.find(rand(1..100)))
   end
 end
 
 visitors3.each do |visitor|
   for i in 0..2
-    visitor.visit_activity(mediums.find(rand(1..4)), activities.find(rand(1..100)))
+    visitor.visit_activity(mediums.find(i+2), activities.find(rand(1..100)))
   end
 end
 visitors4.each do |visitor|
   for i in 0..3
-    visitor.visit_activity(mediums.find(rand(1..4)), activities.find(rand(1..100)))
+    visitor.visit_activity(mediums.find(i+1), activities.find(rand(1..100)))
   end
 end
