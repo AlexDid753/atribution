@@ -16,7 +16,8 @@ class Activity < ActiveRecord::Base
   end
 
   def medium_title
-    mediums.find_by(find_mediums.first.medium_id).title
+    mediums.find_by(id: find_mediums.first.medium_id).title
+  end
     # case who_win
     #   when 1
     #     mediums.find_by(find_mediums.first.medium_id).title
@@ -25,7 +26,7 @@ class Activity < ActiveRecord::Base
     #   when 3
         #mediums.find_by(find_mediums.last.medium_id).title
     # end
-  end
+
 
   def mediums_count(who_win = 1)
     if (who_win.nil?)
