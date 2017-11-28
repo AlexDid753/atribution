@@ -19,8 +19,10 @@ class Activity < ActiveRecord::Base
     end
   end
 
-  def medium_title(who_win = first)
-    if who_win == 'first'
+  def medium_title(who_win = first, search = '')
+    if search.present?
+      mediums.where("title LIKE :search", search: "%#{search}%").first.title
+    elsif who_win == 'first'
       mediums.find_by(id: find_histories.first.medium_id.to_s).title
     elsif who_win == 'last'
       mediums.find_by(id: find_histories.last.medium_id.to_s).title
@@ -29,8 +31,11 @@ class Activity < ActiveRecord::Base
     end
   end
 
-  def mediums_count(who_win = first)
-    if who_win == 'linear'
+  def mediums_count(who_win = first, search = '')
+    if search.present?
+      med_id = mediums.where("title LIKE :search", search: "%#{search}%").first.id
+      History.where("medium_id = :med_id AND activity_id = :activity_id ", med_id: med_id, activity_id: id).count
+    elsif who_win == 'linear'
       History.where(activity_id: id).count
     else
       History.where(medium_id: medium_id(who_win), activity_id: id).count
@@ -43,7 +48,7 @@ class Activity < ActiveRecord::Base
 
   def self.search(search)
     if search
-      where('title LIKE ?', "%#{search}%")
+      joins(:mediums).where("mediums.title LIKE :search OR activities.title LIKE :search", search: "%#{search}%").distinct
       # search_arr = search.split('|')
       # search_arr.each do |search_item|
       #   where('title LIKE ?', "%#{search_item}%")

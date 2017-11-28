@@ -4,31 +4,34 @@
       <%= hidden_field_tag :direction, params[:direction] %>
       <%= hidden_field_tag :sort, params[:sort] %>
       <p>
-        <%= text_field_tag :search, params[:search], placeholder: 'Введите название экскурсии', :class => "form-control" %>
+        <%= text_field_tag :search, params[:search], placeholder: 'Введите название канала', :class => "form-control" %>
       </p>
-      <h4>Модель атрибуции:</h4>
 
-      <%= radio_button_tag :who_win , "first", :checked => 'true'  %>
-      <%= label(:who_win, "Посетитель засчитывается к каналу, с которого было совершено первое посещение(First)") %>
-      <br>
-      <%= radio_button_tag(:who_win, "last") %>
-      <%= label_tag(:who_win, "Посетитель засчитывается к каналу, с которого было совершено последнее посещение(Last)") %>
-      <br>
-      <%= radio_button_tag(:who_win, "linear") %>
-      <%= label_tag(:who_win, "Посетитель засчитывается ко всем каналам, с которых были переходы(Linear)") %>
-      <br>
-      <div class="input-group-btn">
-        <%= submit_tag "Поиск", :name => nil, :class => "btn btn-default" %>
+      <h4>Модель атрибуции:</h4>
+      <div class="atribution_radio">
+        <%= radio_button_tag :who_win, "first", :class => 'atribution_radio' %>
+        <%= label(:who_win, "Посетитель засчитывается к каналу, с которого было совершено первое посещение(First)") %>
+        <br>
+        <%= radio_button_tag(:who_win, "last", :class => 'atribution_radio') %>
+        <%= label_tag(:who_win, "Посетитель засчитывается к каналу, с которого было совершено последнее посещение(Last)") %>
+        <br>
+        <%= radio_button_tag(:who_win, "linear", :checked => 'true', :class => 'atribution_radio') %>
+        <%= label_tag(:who_win, "Посетитель засчитывается ко всем каналам, с которых были переходы(Linear)") %>
+        <br>
+        <div class="input-group-btn">
+          <%= submit_tag "Поиск", :name => nil, :class => "btn btn-default" %>
+        </div>
       </div>
-      </p>
 
   <% end %>
 </div>
 
-<% if !params[:who_win].present?
-     params[:who_win] = 'linear'
-   end %>
 <div class="statistics_table">
-<%= render 'layouts/statistics_table' %>
+  <% if !params[:who_win].present?
+       params[:who_win] = 'linear'
+     end %>
+
+
+  <%= render 'layouts/statistics_table' %>
 </div>
 <%= will_paginate %>
