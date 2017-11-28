@@ -9,13 +9,13 @@
       <p>Модель атрибуции: </p>
 
       <%= radio_button_tag(:who_win, "first") %>
-      <%= label_tag(:who_win, "Посетитель засчитывается к каналу, с которого было совершено первое посещение") %>
+      <%= label_tag(:who_win, "Посетитель засчитывается к каналу, с которого было совершено первое посещение(First)") %>
       <br>
       <%= radio_button_tag(:who_win, "last") %>
-      <%= label_tag(:who_win, "Посетитель засчитывается к каналу, с которого было совершено последнее посещение") %>
+      <%= label_tag(:who_win, "Посетитель засчитывается к каналу, с которого было совершено последнее посещение(Last)") %>
       <br>
       <%= radio_button_tag(:who_win, "linear") %>
-      <%= label_tag(:who_win, "Посетитель засчитывается ко всем каналам, с которых были переходы") %>
+      <%= label_tag(:who_win, "Посетитель засчитывается ко всем каналам, с которых были переходы(Linear)") %>
       <br>
       <div class="input-group-btn">
         <%= submit_tag "Поиск", :name => nil, :class => "btn btn-default" %>
@@ -24,6 +24,11 @@
 
   <% end %>
 </div>
+
+<% if !params[:who_win].present?
+     params[:who_win] = 'linear'
+   end %>
+
 <table class="table-bordered table-hover">
   <tr>
     <th>ID</th>
@@ -34,15 +39,15 @@
   </tr>
 
 
-      <% @activities.each do |activity| %>
-          <tr>
-            <th><%= activity.id %></th>
-            <th><%= link_to activity.title, activity %></th>
-            <th><%= activity.medium_title(params[:who_win]) %></th>
-            <th><%= activity.mediums_count(params[:who_win]) %></th>
-            <th><%= activity.mediums_proceed(params[:who_win]) %></th>
-          </tr>
-      <% end %>
+  <% @activities.each do |activity| %>
+      <tr>
+        <th><%= activity.id %></th>
+        <th><%= link_to activity.title, activity %></th>
+        <th><%= activity.medium_title(params[:who_win]) %></th>
+        <th><%= activity.mediums_count(params[:who_win]) %></th>
+        <th><%= activity.mediums_proceed(params[:who_win]) %></th>
+      </tr>
+  <% end %>
 
 
 </table>

@@ -16,28 +16,29 @@ class Activity < ActiveRecord::Base
       find_histories.first.medium_id.to_s
     elsif who_win == 'last'
       find_histories.last.medium_id.to_s
-    elsif who_win == 'linear'
-
     end
   end
 
   def medium_title(who_win = first)
-    mediums.find_by(id: find_histories.first.medium_id.to_s).title
     if who_win == 'first'
-      mediums.find_by(id: find_histories.last.medium_id.to_s).title
-    elsif who_win == 'last'
       mediums.find_by(id: find_histories.first.medium_id.to_s).title
-    elsif who_win == 'linear'
-  #todo для всех
+    elsif who_win == 'last'
+      mediums.find_by(id: find_histories.last.medium_id.to_s).title
+    else
+      'Все каналы'
     end
   end
 
   def mediums_count(who_win = first)
+    if who_win == 'linear'
+      History.where(activity_id: id).count
+    else
       History.where(medium_id: medium_id(who_win), activity_id: id).count
+    end
   end
 
   def mediums_proceed(who_win = first)
-    (arpu * mediums_count(who_win)).round
+    (arpu * mediums_count(who_win)).round || 0
   end
 
   def self.search(search)
