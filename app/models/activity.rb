@@ -11,43 +11,56 @@ class Activity < ActiveRecord::Base
     histories.where(activity_id: id)
   end
 
-  def first_medium_id
-    find_histories.first.medium_id.to_s
+  def medium_id(who_win = first)
+    if who_win == 'first'
+      find_histories.first.medium_id.to_s
+    elsif who_win == 'last'
+      find_histories.last.medium_id.to_s
+    end
   end
 
-  def last_medium_id
-    find_histories.last.medium_id.to_s
+  def medium_title(who_win = first)
+    if who_win == 'first'
+      mediums.find_by(id: find_histories.first.medium_id.to_s).title
+    elsif who_win == 'last'
+      mediums.find_by(id: find_histories.last.medium_id.to_s).title
+    else
+      'Все каналы'
+    end
   end
 
-  def first_medium_title
-    mediums.find_by(id: find_histories.first.medium_id.to_s).title
+  def mediums_count(who_win = first)
+    if who_win == 'linear'
+      History.where(activity_id: id).count
+    else
+      History.where(medium_id: medium_id(who_win), activity_id: id).count
+    end
   end
 
-  def last_medium_title
-    mediums.find_by(id: find_histories.last.medium_id.to_s).title
-  end
-
-  def first_mediums_count
-    History.where(medium_id: first_medium_id, activity_id: id).count
-  end
-
-  def last_mediums_count
-    History.where(medium_id: last_medium_id, activity_id: id).count
-  end
-
-  def first_mediums_proceed
-    (arpu * first_mediums_count).round
-  end
-
-  def last_mediums_proceed
-    (arpu * last_mediums_count).round
+  def mediums_proceed(who_win = first)
+    (arpu * mediums_count(who_win)).round || 0
   end
 
   def self.search(search)
     if search
       where('title LIKE ?', "%#{search}%")
+      # search_arr = search.split('|')
+      # search_arr.each do |search_item|
+      #   where('title LIKE ?', "%#{search_item}%")
+      # end
+      #where('title LIKE ?', "%#{search}%")
+      #joins(:mediums).where {( medium.title =~ "%#{search}%")}
+    else
+      all
+    end
+  end
+
+  def self.search_by_medium(search)
+    if search
+      joins(:mediums).where(mediums: {title: search})
     else
       all
     end
   end
 end
+
