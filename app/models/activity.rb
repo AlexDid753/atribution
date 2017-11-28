@@ -11,36 +11,33 @@ class Activity < ActiveRecord::Base
     histories.where(activity_id: id)
   end
 
-  def first_medium_id
-    find_histories.first.medium_id.to_s
+  def medium_id(who_win = first)
+    if who_win == 'first'
+      find_histories.first.medium_id.to_s
+    elsif who_win == 'last'
+      find_histories.last.medium_id.to_s
+    elsif who_win == 'linear'
+
+    end
   end
 
-  def last_medium_id
-    find_histories.last.medium_id.to_s
-  end
-
-  def first_medium_title
+  def medium_title(who_win = first)
     mediums.find_by(id: find_histories.first.medium_id.to_s).title
+    if who_win == 'first'
+      mediums.find_by(id: find_histories.last.medium_id.to_s).title
+    elsif who_win == 'last'
+      mediums.find_by(id: find_histories.first.medium_id.to_s).title
+    elsif who_win == 'linear'
+  #todo для всех
+    end
   end
 
-  def last_medium_title
-    mediums.find_by(id: find_histories.last.medium_id.to_s).title
+  def mediums_count(who_win = first)
+      History.where(medium_id: medium_id(who_win), activity_id: id).count
   end
 
-  def first_mediums_count
-    History.where(medium_id: first_medium_id, activity_id: id).count
-  end
-
-  def last_mediums_count
-    History.where(medium_id: last_medium_id, activity_id: id).count
-  end
-
-  def first_mediums_proceed
-    (arpu * first_mediums_count).round
-  end
-
-  def last_mediums_proceed
-    (arpu * last_mediums_count).round
+  def mediums_proceed(who_win = first)
+    (arpu * mediums_count(who_win)).round
   end
 
   def self.search(search)
@@ -51,3 +48,4 @@ class Activity < ActiveRecord::Base
     end
   end
 end
+
