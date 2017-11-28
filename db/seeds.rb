@@ -18,10 +18,10 @@ Medium.create!(title: 'email')
 
 100.times do
   title = Faker::Lorem.sentence + Faker::Address.city
-  apru = rand(10..30)
+  arpu = rand(10..30)
   Activity.create!(
     title: title,
-    apru: apru
+    arpu: arpu
   )
 end
 

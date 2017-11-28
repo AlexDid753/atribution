@@ -4,48 +4,43 @@ class Activity < ActiveRecord::Base
   has_many :histories, foreign_key: 'activity_id'
 
   def proceeds
-    (apru * visitors.count).round
+    (arpu * visitors.count).round
   end
 
-  def apru_round
-    apru.round
-  end
-
-  def find_mediums
+  def find_histories
     histories.where(activity_id: id)
   end
 
-  def medium_title
-    mediums.find_by(id: find_mediums.first.medium_id).title
-  end
-    # case who_win
-    #   when 1
-    #     mediums.find_by(find_mediums.first.medium_id).title
-    #   when 2
-    #     mediums.find_by(find_mediums.last.medium_id).title
-    #   when 3
-        #mediums.find_by(find_mediums.last.medium_id).title
-    # end
-
-
-  def mediums_count(who_win = 1)
-    if (who_win.nil?)
-      who_win = 1
-    end
-
-    case who_win
-      when 1
-        History.where(medium_id: find_mediums.first.medium_id, activity_id: id).count
-      when 2
-        History.where(medium_id: find_mediums.last.medium_id, activity_id: id).count
-      else
-        #History.where(medium_id: find_mediums.first.medium_id, activity_id: id).count
-    end
-
+  def first_medium_id
+    find_histories.first.medium_id.to_s
   end
 
-  def mediums_proceed
-    (apru * mediums_count).round
+  def last_medium_id
+    find_histories.last.medium_id.to_s
+  end
+
+  def first_medium_title
+    mediums.find_by(id: find_histories.first.medium_id.to_s).title
+  end
+
+  def last_medium_title
+    mediums.find_by(id: find_histories.last.medium_id.to_s).title
+  end
+
+  def first_mediums_count
+    History.where(medium_id: first_medium_id, activity_id: id).count
+  end
+
+  def last_mediums_count
+    History.where(medium_id: last_medium_id, activity_id: id).count
+  end
+
+  def first_mediums_proceed
+    (arpu * first_mediums_count).round
+  end
+
+  def last_mediums_proceed
+    (arpu * last_mediums_count).round
   end
 
   def self.search(search)

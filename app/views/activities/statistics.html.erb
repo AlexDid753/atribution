@@ -1,25 +1,25 @@
 <div class="input-group">
 
-    <%= form_tag statistic_path, :method => 'get', :class => "navbar-form", :role => "search" do %>
-        <%= hidden_field_tag :direction, params[:direction] %>
-        <%= hidden_field_tag :sort, params[:sort] %>
-        <p>
-          <%= text_field_tag :search, params[:search], placeholder: 'Введите название' , :class=>"form-control"%>
-        </p>
-        <p>Модель атрибуции: </p>
+  <%= form_tag statistic_path, :method => 'get', :class => "navbar-form", :role => "search" do %>
+      <%= hidden_field_tag :direction, params[:direction] %>
+      <%= hidden_field_tag :sort, params[:sort] %>
+      <p>
+        <%= text_field_tag :search, params[:search], placeholder: 'Введите название', :class => "form-control" %>
+      </p>
+      <p>Модель атрибуции: </p>
 
-        <%= radio_button_tag(:who_win, "1") %>
-        <%= label_tag(:who_win, "Посетитель засчитывается к каналу, с которого было совершено первое посещение") %>
-        <br>
-        <%= radio_button_tag(:who_win, "2") %>
-        <%= label_tag(:who_win, "Посетитель засчитывается к каналу, с которого было совершено последнее посещение") %>
-        <br>
-        <div class="input-group-btn">
-          <%= submit_tag "Поиск", :name => nil, :class=> "btn btn-default"%>
-        </div>
-        </p>
+      <%= radio_button_tag(:who_win, "1") %>
+      <%= label_tag(:who_win, "Посетитель засчитывается к каналу, с которого было совершено первое посещение") %>
+      <br>
+      <%= radio_button_tag(:who_win, "2") %>
+      <%= label_tag(:who_win, "Посетитель засчитывается к каналу, с которого было совершено последнее посещение") %>
+      <br>
+      <div class="input-group-btn">
+        <%= submit_tag "Поиск", :name => nil, :class => "btn btn-default" %>
+      </div>
+      </p>
 
-    <% end %>
+  <% end %>
 </div>
 <table class="table-bordered table-hover">
   <tr>
@@ -29,14 +29,27 @@
     <th>Количество посетителей</th>
     <th>Выручка</th>
   </tr>
-  <% @activities.each do |activity| %>
-      <tr>
-        <th><%= activity.id %></th>
-        <th><%= link_to activity.title, activity %></th>
-        <th><%= activity.medium_title %></th>
-        <th><%= activity.visitors.count %></th>
-        <th><%= activity.mediums_proceed %></th>
-      </tr>
+
+  <% if params[:who_win] == '1' || nil %>
+      <% @activities.each do |activity| %>
+          <tr>
+            <th><%= activity.id %></th>
+            <th><%= link_to activity.title, activity %></th>
+            <th><%= activity.first_medium_title %></th>
+            <th><%= activity.first_mediums_count %></th>
+            <th><%= activity.first_mediums_proceed %></th>
+          </tr>
+      <% end %>
+  <% elsif params[:who_win] == '2' %>
+      <% @activities.each do |activity| %>
+          <tr>
+            <th><%= activity.id %></th>
+            <th><%= link_to activity.title, activity %></th>
+            <th><%= activity.last_medium_title %></th>
+            <th><%= activity.last_mediums_count %></th>
+            <th><%= activity.last_mediums_proceed %></th>
+          </tr>
+      <% end %>
   <% end %>
 </table>
 <%= will_paginate %>

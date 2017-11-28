@@ -10,7 +10,7 @@ class Medium < ActiveRecord::Base
     medium_activity_ids = 'SELECT activity_id FROM histories WHERE  medium_id = :medium_id'
     medium_activities = activities.where("activity_id IN (#{medium_activity_ids})", medium_id: id)
     medium_activities.each do |medium_activity|
-      summ += medium_activity.apru
+      summ += medium_activity.arpu
     end
     summ.round
   end
