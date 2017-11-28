@@ -8,11 +8,14 @@
       </p>
       <p>Модель атрибуции: </p>
 
-      <%= radio_button_tag(:who_win, "1") %>
+      <%= radio_button_tag(:who_win, "first") %>
       <%= label_tag(:who_win, "Посетитель засчитывается к каналу, с которого было совершено первое посещение") %>
       <br>
-      <%= radio_button_tag(:who_win, "2") %>
+      <%= radio_button_tag(:who_win, "last") %>
       <%= label_tag(:who_win, "Посетитель засчитывается к каналу, с которого было совершено последнее посещение") %>
+      <br>
+      <%= radio_button_tag(:who_win, "linear") %>
+      <%= label_tag(:who_win, "Посетитель засчитывается ко всем каналам, с которых были переходы") %>
       <br>
       <div class="input-group-btn">
         <%= submit_tag "Поиск", :name => nil, :class => "btn btn-default" %>
@@ -30,26 +33,17 @@
     <th>Выручка</th>
   </tr>
 
-  <% if params[:who_win] == '1' || nil %>
+
       <% @activities.each do |activity| %>
           <tr>
             <th><%= activity.id %></th>
             <th><%= link_to activity.title, activity %></th>
-            <th><%= activity.first_medium_title %></th>
-            <th><%= activity.first_mediums_count %></th>
-            <th><%= activity.first_mediums_proceed %></th>
+            <th><%= activity.medium_title(params[:who_win]) %></th>
+            <th><%= activity.mediums_count(params[:who_win]) %></th>
+            <th><%= activity.mediums_proceed(params[:who_win]) %></th>
           </tr>
       <% end %>
-  <% elsif params[:who_win] == '2' %>
-      <% @activities.each do |activity| %>
-          <tr>
-            <th><%= activity.id %></th>
-            <th><%= link_to activity.title, activity %></th>
-            <th><%= activity.last_medium_title %></th>
-            <th><%= activity.last_mediums_count %></th>
-            <th><%= activity.last_mediums_proceed %></th>
-          </tr>
-      <% end %>
-  <% end %>
+
+
 </table>
 <%= will_paginate %>
