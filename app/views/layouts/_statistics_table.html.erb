@@ -1,0 +1,21 @@
+<table class="table-bordered table-hover">
+  <tr>
+    <th><%= link_to 'ID', :sort => 'id' %></th>
+    <th><%= link_to 'Экскурсия', :sort => 'title' %></th>
+    <th>Канал</th>
+    <th>Количество посетителей</th>
+    <th>Выручка</th>
+  </tr>
+
+  <% @activities.each do |activity| %>
+      <tr>
+        <th><%= activity.id %></th>
+        <th><%= link_to activity.title, activity %></th>
+        <th><%= activity.medium_title(params[:who_win]) %></th>
+        <th><%= activity.mediums_count(params[:who_win]) %></th>
+        <th><%= activity.mediums_proceed(params[:who_win]) %></th>
+      </tr>
+  <% end %>
+
+
+</table>

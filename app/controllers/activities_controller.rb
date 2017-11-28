@@ -1,13 +1,14 @@
 class ActivitiesController < ApplicationController
   helper_method :sort_column, :sort_direction
+
   def index
     @activities = Activity.search(params[:search]).order(sort_column + ' ' + sort_direction).paginate(page: params[:page])
   end
 
   def statistics
-    @activities = Activity.paginate(page: params[:page])
+    @activities = Activity.search(params[:search]).order(sort_column + ' ' + sort_direction).paginate(page: params[:page])
+    #@activities = Activity.search_by_medium(params[:search]).order(sort_column + ' ' + sort_direction).paginate(page: params[:page])
   end
-
 
   private
   def sort_column

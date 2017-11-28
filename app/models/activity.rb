@@ -44,6 +44,20 @@ class Activity < ActiveRecord::Base
   def self.search(search)
     if search
       where('title LIKE ?', "%#{search}%")
+      # search_arr = search.split('|')
+      # search_arr.each do |search_item|
+      #   where('title LIKE ?', "%#{search_item}%")
+      # end
+      #where('title LIKE ?', "%#{search}%")
+      #joins(:mediums).where {( medium.title =~ "%#{search}%")}
+    else
+      all
+    end
+  end
+
+  def self.search_by_medium(search)
+    if search
+      joins(:mediums).where(mediums: {title: search})
     else
       all
     end
