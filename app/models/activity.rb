@@ -48,7 +48,14 @@ class Activity < ActiveRecord::Base
 
   def self.search(search)
     if search
+      #search = search.to_tsquery
       joins(:mediums).where("mediums.title LIKE :search OR activities.title LIKE :search", search: "%#{search}%").distinct
+
+      # splited = search.split("|").map.with_index.each_with_object({}) { |(i, v), h| h[:"#{i}_keyword"] = "%#{v}%" }
+      # criteria = splited.keys.map { |key| "(mediums.title LIKE :#{key} OR activities.title LIKE :#{key})" }.join(' OR ')
+      # joins(:mediums).where(criteria).distinct
+
+
       # search_arr = search.split('|')
       # search_arr.each do |search_item|
       #   where('title LIKE ?', "%#{search_item}%")
