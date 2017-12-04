@@ -12,7 +12,7 @@
   <tr>
     <th><%= sortable 'id' %></th>
     <th><%= sortable 'title', 'Экскурсия' %></th>
-    <th><%= sortable '', 'Количество посещений' %></th>
+    <th><%= sortable 'visitors_count', 'Количество посещений' %></th>
     <th>Суммарная выручка</th>
   </tr>
   <% @activities.each do |activity| %>
