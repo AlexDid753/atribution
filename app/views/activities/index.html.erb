@@ -8,11 +8,11 @@
       </p>
   <% end %>
 </div>
-<table class="table-bordered table-hover">
+<table class="table-activities table-bordered table-hover">
   <tr>
-    <th><%= link_to 'ID', :sort => 'id' %></th>
-    <th><%= link_to 'Экскурсия', :sort => 'title' %></th>
-    <th>Количество посетителей</th>
+    <th><%= sortable 'id' %></th>
+    <th><%= sortable 'title', 'Экскурсия' %></th>
+    <th><%= sortable '', 'Количество посещений' %></th>
     <th>Суммарная выручка</th>
   </tr>
   <% @activities.each do |activity| %>
