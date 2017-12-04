@@ -13,6 +13,8 @@
     <th><%= sortable 'id' %></th>
     <th><%= sortable 'title', 'Экскурсия' %></th>
     <th><%= sortable 'visitors_count', 'Количество посещений' %></th>
+    <th><%= sortable 'price', 'Цена' %></th>
+    <th><%= sortable 'rating', 'Оценка клиентов' %></th>
     <th>Суммарная выручка</th>
   </tr>
   <% @activities.each do |activity| %>
@@ -20,6 +22,8 @@
         <th><%= activity.id %></th>
         <th><%= link_to activity.title, activity %></th>
         <th><%= activity.visitors.count %></th>
+        <th><%= activity.price %></th>
+        <th><%= activity.rating %></th>
         <th><%= activity.proceeds %></th>
       </tr>
   <% end %>
