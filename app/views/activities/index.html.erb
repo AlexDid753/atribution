@@ -9,6 +9,7 @@
   <% end %>
 </div>
 <table class="table-activities table-bordered table-hover">
+  <thead>
   <tr>
     <th><%= sortable 'id' %></th>
     <th><%= sortable 'title', 'Экскурсия' %></th>
@@ -17,6 +18,7 @@
     <th><%= sortable 'rating', 'Оценка клиентов' %></th>
     <th>Суммарная выручка</th>
   </tr>
+  </thead>
   <% @activities.each do |activity| %>
       <tr>
         <th><%= activity.id %></th>

@@ -10,6 +10,9 @@ class ActivitiesController < ApplicationController
     #@activities = Activity.search_by_medium(params[:search]).order(sort_column + ' ' + sort_direction).paginate(page: params[:page])
   end
 
+  def show
+    @activity = Activity.find(params[:id])
+  end
   private
   def sort_column
     Activity.column_names.include?(params[:sort]) ? params[:sort] : "title"
