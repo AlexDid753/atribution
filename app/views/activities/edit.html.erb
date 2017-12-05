@@ -2,13 +2,12 @@
 
 <div class="row">
   <div class="col-md-6 col-md-offset-3">
-    <%= form_for(@activity) do |f| %>
+    <%= form_for @activity, :remote => true do |f|  %>
       <%= f.label :title, "Название" %>
       <div class="form-group">
-        <input value="<%= @activity.title %>" id="activity_title" type="text" class="form-group form-control" name="activity[title]" @focus="magic_flag = true"
-               @blur="magic_flag = false" placeholder="Введите название">
+        <input v-on:blur="onBlur_title" v-model="activity_title" value="<%= @activity.title %>" id="activity_title" type="text" class="form-group form-control" name="activity[title]"
+                placeholder="Введите название">
       </div>
-
       <%= f.label :price, "Цена" %>
       <div class="form-group">
         <input value="<%= @activity.price %>" id="activity_price" type="text" class="form-group form-control" name="activity[price]" placeholder="Введите название">
@@ -27,19 +26,42 @@
     var app = new Vue({
         el: '#activity_title',
         data: {
-            message: 'Hello Vue!',
-            search: '',
-            'activity[title]': '',
-            magic_flag: false
+            activity_title: '<%= @activity.title %>'
         },
-
+        methods: {
+            onBlur_title: function(){
+                //alert(this.activity_title);
+                var dataSet = $('#edit_activity_<%= params[:id] %>').serialize();
+                $.ajax({
+                    type: "PATCH",
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                        'Content-Type': 'application/json; charset=utf-8'
+                    },
+                    dataType: "json",
+                    url: '/activities/' + <%= params[:id] %>,
+                    data:
+                        JSON.stringify({
+                            activity: {
+                                'title': this.activity_title
+                            }
+                    }),
+                    success: function (json) {
+                        alert( "Data Saved: " + json );
+                    },
+                    error: function(xhr, textStatus, error) {
+                        alert(xhr.statusText+""+textStatus+""+error);
+                    }
+                });
+            }
+        },
         watch:{
             activity_title: function () {
                 this.activity_title.onblur = function () {
                     $.ajax({
-                        type: "POST",
+                        type: "GET",
                         dataType: "script",
-                        url: '/resources/9',
+                        url: '/resources/<%= params[:id] %>',
                         contentType: 'application/json',
                         data: {
                             activity: {
@@ -52,7 +74,7 @@
                     });
                 }
             }
-  
+
         }
     })
 </script>
