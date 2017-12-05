@@ -183,16 +183,25 @@ th {
 
 .activity-seen{
   display: inline-block;
-  height: 100%;
-  max-height: 260px;
+  height: 271px;
+  width: 13%;
+  min-width: 152px;
+
   border: 2px solid;
   border-radius: 6px;
   border-color: #ababab;
-  margin: 10px;
+  margin: 1px;
   padding: 4px;
-  width: 10%;
-  min-width: 220px;
+
+  .a-carousel-image-link{
+    width:140px;
+  }
+  .action_price{
+    font-size: 13px;
+  }
 }
+
+
 
 .activity-seen:hover{
   box-shadow: 6px 7px 5px 0px rgba(117, 117, 117, 0.75);
