@@ -183,21 +183,16 @@ th {
 
 .activity-seen{
   display: inline-block;
-  height: 271px;
-  width: 13%;
-  min-width: 152px;
-
+  height: 100%;
+  max-height: 260px;
   border: 2px solid;
   border-radius: 6px;
   border-color: #ababab;
-  margin: 1px;
+  margin: 10px;
   padding: 4px;
-
+  width: 162px;
   .a-carousel-image-link{
-    width:140px;
-  }
-  .action_price{
-    font-size: 13px;
+    width:100%;
   }
 }
 
@@ -205,4 +200,16 @@ th {
 
 .activity-seen:hover{
   box-shadow: 6px 7px 5px 0px rgba(117, 117, 117, 0.75);
+}
+
+.btn_search_activity{
+  display: inline-block;
+  float: right;
+}
+
+.input-group{
+  width: 40%;
+  #search{
+    width: 70%;
+  }
 }

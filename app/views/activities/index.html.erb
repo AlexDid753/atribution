@@ -1,13 +1,16 @@
 <div class="input-group">
   <%= form_tag activities_path, :method => 'get', :class => "navbar-form", :role => "search" do %>
-      <%= hidden_field_tag :direction, params[:direction] %>
-      <%= hidden_field_tag :sort, params[:sort] %>
-      <p>
-        <%= text_field_tag :search, params[:search], :class=>"form-control", placeholder: 'Введите название экскурсии' %>
-        <%= submit_tag "Поиск", :name => nil, :class=> "btn btn-default" %>
-      </p>
+    <%= hidden_field_tag :direction, params[:direction] %>
+    <%= hidden_field_tag :sort, params[:sort] %>
+    <div>
+      <%= text_field_tag :search, params[:search], :class => "form-control", placeholder: 'Введите название экскурсии' %>
+    </div>
+    <div class="btn_search_activity">
+      <%= submit_tag "Поиск", :name => nil, :class => "btn btn-default" %>
+    </div>
   <% end %>
 </div>
+<br>
 <table class="table-activities table-bordered table-hover table-responsive">
   <thead>
   <tr>
@@ -20,17 +23,18 @@
   </tr>
   </thead>
   <% @activities.each do |activity| %>
-      <tr>
-        <th><%= activity.id %></th>
-        <th><%= link_to activity.title, activity %></th>
-        <th><%= activity.visitors.count %></th>
-        <th><%= activity.price %></th>
-        <th><%= activity.rating %></th>
-        <th><%= activity.proceeds %></th>
-      </tr>
+    <tr>
+      <th><%= activity.id %></th>
+      <th><%= link_to activity.title, activity %></th>
+      <th><%= activity.visitors.count %></th>
+      <th><%= activity.price %></th>
+      <th><%= activity.rating %></th>
+      <th><%= activity.proceeds %></th>
+    </tr>
   <% end %>
 </table>
 <%= will_paginate %>
+
 
 
 <section class="recommendations">
@@ -138,4 +142,5 @@
 
   </div>
 </section>
+
 
