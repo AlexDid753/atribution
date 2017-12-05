@@ -21,7 +21,9 @@ Medium.create!(title: 'email')
   arpu = rand(10..30)
   Activity.create!(
     title: title,
-    arpu: arpu
+    arpu: arpu,
+    price: rand(200..2000),
+    rating: rand(1..5)
   )
 end
 

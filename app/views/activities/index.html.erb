@@ -1,27 +1,253 @@
 <div class="input-group">
   <%= form_tag activities_path, :method => 'get', :class => "navbar-form", :role => "search" do %>
-      <%= hidden_field_tag :direction, params[:direction] %>
-      <%= hidden_field_tag :sort, params[:sort] %>
-      <p>
-        <%= text_field_tag :search, params[:search], :class=>"form-control", placeholder: 'Введите название экскурсии' %>
-        <%= submit_tag "Поиск", :name => nil, :class=> "btn btn-default" %>
-      </p>
+    <%= hidden_field_tag :direction, params[:direction] %>
+    <%= hidden_field_tag :sort, params[:sort] %>
+    <div>
+      <%= text_field_tag :search, params[:search], :class => "form-control", placeholder: 'Введите название экскурсии' %>
+    </div>
+    <div class="btn_search_activity">
+      <%= submit_tag "Поиск", :name => nil, :class => "btn btn-default" %>
+    </div>
   <% end %>
 </div>
-<table class="table-activities table-bordered table-hover">
+<br>
+<table class="table-activities table-bordered table-hover table-responsive">
+  <thead>
   <tr>
     <th><%= sortable 'id' %></th>
     <th><%= sortable 'title', 'Экскурсия' %></th>
-    <th><%= sortable '', 'Количество посещений' %></th>
+    <th><%= sortable 'visitors_count', 'Количество посещений' %></th>
+    <th><%= sortable 'price', 'Цена' %></th>
+    <th><%= sortable 'rating', 'Оценка клиентов' %></th>
     <th>Суммарная выручка</th>
   </tr>
+  </thead>
   <% @activities.each do |activity| %>
-      <tr>
-        <th><%= activity.id %></th>
-        <th><%= link_to activity.title, activity %></th>
-        <th><%= activity.visitors.count %></th>
-        <th><%= activity.proceeds %></th>
-      </tr>
+    <tr>
+      <th><%= activity.id %></th>
+      <th><%= link_to activity.title, activity %></th>
+      <th><%= activity.visitors.count %></th>
+      <th><%= activity.price %></th>
+      <th><%= activity.rating %></th>
+      <th><%= activity.proceeds %></th>
+    </tr>
   <% end %>
 </table>
 <%= will_paginate %>
+
+
+
+<section class="recommendations">
+  <h2 class="recommendations_city-title">Санкт-Петербург</h2>
+  <div class="b-carousel">
+
+    <div class="b-carousel-button-left button default">
+      <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+    </div>
+    <div class="b-carousel-button-right button default">
+      <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+    </div>
+
+    <div class="h-carousel-wrapper">
+      <div class="h-carousel-items">
+        <div class="b-carousel-block">
+          <div class="activity">
+            <a href="#" class="a-carousel-image-link">
+              <%= image_tag "1.jfif" %>
+            </a>
+            <a href="#" class="activity_link">
+              Автобусная экскурсия в Будапешт
+            </a>
+            <div class="action_price">Цена за человека 790 ₽</div>
+            <div class="star-rating">
+              <i class="fa fa-star" data-rating="1"></i>
+              <i class="fa fa-star" data-rating="2"></i>
+              <i class="fa fa-star" data-rating="3"></i>
+              <i class="fa fa-star" data-rating="4"></i>
+              <i class="fa fa-star" data-rating="5"></i>
+            </div>
+          </div>
+        </div>
+
+        <div class="b-carousel-block">
+          <a href="#" class="a-carousel-image-link">
+            <%= image_tag "2.jfif" %>
+          </a>
+          <a href="#" class="activity_link">
+            Экскурсия по дворам в Киото
+          </a>
+          <div class="action_price">Цена за человека 1290 ₽</div>
+          <div class="star-rating">
+            <i class="fa fa-star" data-rating="1"></i>
+            <i class="fa fa-star" data-rating="2"></i>
+            <i class="fa fa-star" data-rating="3"></i>
+            <i class="fa fa-star" data-rating="4"></i>
+            <i class="fa fa-star" data-rating="5"></i>
+          </div>
+        </div>
+
+        <div class="b-carousel-block">
+          <a href="#" class="a-carousel-image-link">
+            <%= image_tag "3.jfif" %>
+          </a>
+          <a href="#" class="activity_link">
+            Прогулки с динозаврами
+          </a>
+          <div class="action_price">Цена за человека 710 ₽</div>
+          <div class="star-rating">
+            <i class="fa fa-star" data-rating="1"></i>
+            <i class="fa fa-star" data-rating="2"></i>
+            <i class="fa fa-star-o" data-rating="3"></i>
+            <i class="fa fa-star-o" data-rating="4"></i>
+            <i class="fa fa-star-o" data-rating="5"></i>
+          </div>
+        </div>
+
+        <div class="b-carousel-block">
+          <a href="#" class="a-carousel-image-link">
+            <%= image_tag "4.jfif" %>
+          </a>
+          <a href="#" class="activity_link">
+            Ишимбай - столица мира
+          </a>
+          <div class="action_price">Цена за человека 1790 ₽</div>
+          <div class="star-rating">
+            <i class="fa fa-star" data-rating="1"></i>
+            <i class="fa fa-star" data-rating="2"></i>
+            <i class="fa fa-star" data-rating="3"></i>
+            <i class="fa fa-star" data-rating="4"></i>
+            <i class="fa fa-star-o" data-rating="5"></i>
+          </div>
+        </div>
+
+        <div class="b-carousel-block">
+          <a href="#" class="a-carousel-image-link">
+            <%= image_tag "5.jfif" %>
+          </a>
+          <a href="#" class="activity_link">
+            Историческая экскурсия в Стамбуле
+          </a>
+          <div class="action_price">Цена за человека 2390 ₽</div>
+          <div class="star-rating">
+            <i class="fa fa-star" data-rating="1"></i>
+            <i class="fa fa-star" data-rating="2"></i>
+            <i class="fa fa-star" data-rating="3"></i>
+            <i class="fa fa-star-o" data-rating="4"></i>
+            <i class="fa fa-star-o" data-rating="5"></i>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="recommendations">
+  <h2 class="recommendations_city-title">Москва</h2>
+  <div class="b-carousel">
+
+    <div class="b-carousel-button-left button default">
+      <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+    </div>
+    <div class="b-carousel-button-right button default">
+      <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+    </div>
+
+    <div class="h-carousel-wrapper">
+      <div class="h-carousel-items">
+        <div class="b-carousel-block">
+          <div class="activity">
+            <a href="#" class="a-carousel-image-link">
+              <%= image_tag "1.jfif" %>
+            </a>
+            <a href="#" class="activity_link">
+              Автобусная экскурсия в Будапешт
+            </a>
+            <div class="action_price">Цена за человека 790 ₽</div>
+            <div class="star-rating">
+              <i class="fa fa-star" data-rating="1"></i>
+              <i class="fa fa-star" data-rating="2"></i>
+              <i class="fa fa-star" data-rating="3"></i>
+              <i class="fa fa-star" data-rating="4"></i>
+              <i class="fa fa-star" data-rating="5"></i>
+            </div>
+          </div>
+        </div>
+
+        <div class="b-carousel-block">
+          <a href="#" class="a-carousel-image-link">
+            <%= image_tag "2.jfif" %>
+          </a>
+          <a href="#" class="activity_link">
+            Экскурсия по дворам в Киото
+          </a>
+          <div class="action_price">Цена за человека 1290 ₽</div>
+          <div class="star-rating">
+            <i class="fa fa-star" data-rating="1"></i>
+            <i class="fa fa-star" data-rating="2"></i>
+            <i class="fa fa-star" data-rating="3"></i>
+            <i class="fa fa-star" data-rating="4"></i>
+            <i class="fa fa-star" data-rating="5"></i>
+          </div>
+        </div>
+
+        <div class="b-carousel-block">
+          <a href="#" class="a-carousel-image-link">
+            <%= image_tag "3.jfif" %>
+          </a>
+          <a href="#" class="activity_link">
+            Прогулки с динозаврами
+          </a>
+          <div class="action_price">Цена за человека 710 ₽</div>
+          <div class="star-rating">
+            <i class="fa fa-star" data-rating="1"></i>
+            <i class="fa fa-star" data-rating="2"></i>
+            <i class="fa fa-star-o" data-rating="3"></i>
+            <i class="fa fa-star-o" data-rating="4"></i>
+            <i class="fa fa-star-o" data-rating="5"></i>
+          </div>
+        </div>
+
+        <div class="b-carousel-block">
+          <a href="#" class="a-carousel-image-link">
+            <%= image_tag "4.jfif" %>
+          </a>
+          <a href="#" class="activity_link">
+            Ишимбай - столица мира
+          </a>
+          <div class="action_price">Цена за человека 1790 ₽</div>
+          <div class="star-rating">
+            <i class="fa fa-star" data-rating="1"></i>
+            <i class="fa fa-star" data-rating="2"></i>
+            <i class="fa fa-star" data-rating="3"></i>
+            <i class="fa fa-star" data-rating="4"></i>
+            <i class="fa fa-star-o" data-rating="5"></i>
+          </div>
+        </div>
+
+        <div class="b-carousel-block">
+          <a href="#" class="a-carousel-image-link">
+            <%= image_tag "5.jfif" %>
+          </a>
+          <a href="#" class="activity_link">
+            Историческая экскурсия в Стамбуле
+          </a>
+          <div class="action_price">Цена за человека 2390 ₽</div>
+          <div class="star-rating">
+            <i class="fa fa-star" data-rating="1"></i>
+            <i class="fa fa-star" data-rating="2"></i>
+            <i class="fa fa-star" data-rating="3"></i>
+            <i class="fa fa-star-o" data-rating="4"></i>
+            <i class="fa fa-star-o" data-rating="5"></i>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+
