@@ -1,7 +1,7 @@
 <h1>Редактирование экскурсии</h1>
 
 <div class="row">
-  <div class="col-md-6 col-md-offset-3">
+  <div class="col-md-4">
     <%= form_for @activity, :remote => true do |f|  %>
       <%= f.label :title, "Название" %>
       <div class="form-group">
@@ -10,7 +10,7 @@
       </div>
       <%= f.label :price, "Цена" %>
       <div class="form-group">
-        <input value="<%= @activity.price %>" id="activity_price" type="text" class="form-group form-control" name="activity[price]" placeholder="Введите название">
+        <input v-on:blur="onBlur_price" v-model="activity_price" value="<%= @activity.price %>" id="activity_price" type="text" class="form-group form-control" name="activity[price]" placeholder="Введите название">
       </div>
 
 
@@ -20,18 +20,32 @@
     <% end %>
 
   </div>
+
+  <div class="col-md-6 logs">
+    <p>Hello</p>
+  </div>
+
 </div>
 
+
 <script>
-    var app = new Vue({
+    var app1 = new Vue({
         el: '#activity_title',
         data: {
+            old_activity_title: activity_title.value,
             activity_title: '<%= @activity.title %>'
         },
         methods: {
             onBlur_title: function(){
                 //alert(this.activity_title);
-                var dataSet = $('#edit_activity_<%= params[:id] %>').serialize();
+                var self = this;
+                var OldData = self.old_activity_title;
+                var NewData = self.activity_title;
+                var PrintLogs = function(){
+                    $('.logs').append("<p>Старое значение заголовка: " + OldData+"</p>" +  "<p>Новое значение заголовка: " + NewData);
+                    self.old_activity_title = self.activity_title;
+                };
+
                 $.ajax({
                     type: "PATCH",
                     headers: {
@@ -46,35 +60,84 @@
                                 'title': this.activity_title
                             }
                     }),
-                    success: function (json) {
-                        alert( "Data Saved: " + json );
+                    success: function () {
+                        //alert( "Data Saved: " + json );
+                        if (OldData != NewData){
+                            PrintLogs();
+                            OldData = NewData;
+                        }
                     },
                     error: function(xhr, textStatus, error) {
-                        alert(xhr.statusText+""+textStatus+""+error);
+                        //alert(xhr.statusText+""+textStatus+""+error);
+                        if (OldData != NewData){
+                            PrintLogs();
+                            OldData = NewData;
+                        }
                     }
                 });
-            }
-        },
-        watch:{
-            activity_title: function () {
-                this.activity_title.onblur = function () {
-                    $.ajax({
-                        type: "GET",
-                        dataType: "script",
-                        url: '/resources/<%= params[:id] %>',
-                        contentType: 'application/json',
-                        data: {
-                            activity: {
-                                title: app.activity[title]
-                            },
-                        },
-                        success: function (json) {
-                            alert( "Data Saved: " + json );
-                        }
-                    });
+
+            },
+            computed: {
+                old_activity_title: function () {
+                    return old_activity_title = self.activity_title;
                 }
             }
+        }
 
+    })
+    var app2 = new Vue({
+        el: '#activity_price',
+        data: {
+            old_activity_price: activity_price.value,
+            activity_price: '<%= @activity.price %>'
+        },
+        methods: {
+            onBlur_price: function(){
+                //alert(this.activity_price);
+                var self = this;
+                var OldData = self.old_activity_price;
+                var NewData = self.activity_price;
+                var PrintLogs = function(){
+                    $('.logs').append("<p>Старое значение цены: " + OldData+"</p>" +  "<p>Новое значение цены: " + NewData);
+                    self.old_activity_price = self.activity_price;
+                };
+
+                $.ajax({
+                    type: "PATCH",
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                        'Content-Type': 'application/json; charset=utf-8'
+                    },
+                    dataType: "json",
+                    url: '/activities/' + <%= params[:id] %>,
+                    data:
+                        JSON.stringify({
+                            activity: {
+                                'price': this.activity_price
+                            }
+                        }),
+                    success: function () {
+                        //alert( "Data Saved: " + json );
+                        if (OldData != NewData){
+                            PrintLogs();
+                            OldData = NewData;
+                        }
+                    },
+                    error: function(xhr, textStatus, error) {
+                        //alert(xhr.statusText+""+textStatus+""+error);
+                        if (OldData != NewData){
+                            PrintLogs();
+                            OldData = NewData;
+                        }
+                    }
+                });
+
+            },
+            computed: {
+                old_activity_price: function () {
+                    return old_activity_price = self.activity_price;
+                }
+            }
         }
     })
 </script>
