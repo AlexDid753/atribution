@@ -29,7 +29,7 @@
 
 
 <script>
-    var app = new Vue({
+    var app1 = new Vue({
         el: '#activity_title',
         data: {
             old_activity_title: activity_title.value,
@@ -85,5 +85,59 @@
         }
 
     })
-    
+    var app2 = new Vue({
+        el: '#activity_price',
+        data: {
+            old_activity_price: activity_price.value,
+            activity_price: '<%= @activity.price %>'
+        },
+        methods: {
+            onBlur_price: function(){
+                //alert(this.activity_price);
+                var self = this;
+                var OldData = self.old_activity_price;
+                var NewData = self.activity_price;
+                var PrintLogs = function(){
+                    $('.logs').append("<p>Старое значение цены: " + OldData+"</p>" +  "<p>Новое значение цены: " + NewData);
+                    self.old_activity_price = self.activity_price;
+                };
+
+                $.ajax({
+                    type: "PATCH",
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                        'Content-Type': 'application/json; charset=utf-8'
+                    },
+                    dataType: "json",
+                    url: '/activities/' + <%= params[:id] %>,
+                    data:
+                        JSON.stringify({
+                            activity: {
+                                'price': this.activity_price
+                            }
+                        }),
+                    success: function () {
+                        //alert( "Data Saved: " + json );
+                        if (OldData != NewData){
+                            PrintLogs();
+                            OldData = NewData;
+                        }
+                    },
+                    error: function(xhr, textStatus, error) {
+                        //alert(xhr.statusText+""+textStatus+""+error);
+                        if (OldData != NewData){
+                            PrintLogs();
+                            OldData = NewData;
+                        }
+                    }
+                });
+
+            },
+            computed: {
+                old_activity_price: function () {
+                    return old_activity_price = self.activity_price;
+                }
+            }
+        }
+    })
 </script>
