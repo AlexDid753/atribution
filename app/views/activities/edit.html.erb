@@ -10,7 +10,7 @@
       </div>
       <%= f.label :price, "Цена" %>
       <div class="form-group">
-        <input v-on:blur="onBlur_price" v-model="activity_price" value="<%= @activity.price %>" id="activity_price" type="text" class="form-group form-control" name="activity[price]" placeholder="Введите название">
+        <input v-on:blur="onBlur_price" v-model="activity_price" value="<%= @activity.price %>" id="activity_price" type="text" class="form-group form-control" name="activity[price]" placeholder="Введите цену">
       </div>
 
 
@@ -21,28 +21,31 @@
 
   </div>
 
-  <div class="col-md-6 logs">
-    <p>Hello</p>
+  <p>Логи:</p>
+  <div id="activity_title" class="col-md-6 logs" v-model="activity_logs">
+    <%= @activity.logs %>
   </div>
 
 </div>
 
 
 <script>
+
+
     var app1 = new Vue({
         el: '#activity_title',
         data: {
             old_activity_title: activity_title.value,
-            activity_title: '<%= @activity.title %>'
+            activity_title: '<%= @activity.title %>',
+            logs: '<%= @activity.logs %>'
         },
         methods: {
             onBlur_title: function(){
-                //alert(this.activity_title);
                 var self = this;
                 var OldData = self.old_activity_title;
                 var NewData = self.activity_title;
                 var PrintLogs = function(){
-                    $('.logs').append("<p>Старое значение заголовка: " + OldData+"</p>" +  "<p>Новое значение заголовка: " + NewData);
+                    $('.logs').append("<p>Дата и время: " +  (new Date()).toString('dd.MM.yyyy Время: hh:mm:ss') + "</p><p>Старое значение заголовка: " + OldData+"</p>" +  "<p>Новое значение заголовка: " + NewData);
                     self.old_activity_title = self.activity_title;
                 };
 
@@ -57,7 +60,8 @@
                     data:
                         JSON.stringify({
                             activity: {
-                                'title': this.activity_title
+                                'title': this.activity_title,
+                                'logs' : this.logs
                             }
                     }),
                     success: function () {
@@ -89,7 +93,8 @@
         el: '#activity_price',
         data: {
             old_activity_price: activity_price.value,
-            activity_price: '<%= @activity.price %>'
+            activity_price: '<%= @activity.price %>',
+            logs: '<%= @activity.logs %>'
         },
         methods: {
             onBlur_price: function(){
@@ -98,8 +103,8 @@
                 var OldData = self.old_activity_price;
                 var NewData = self.activity_price;
                 var PrintLogs = function(){
-                    $('.logs').append("<p>Старое значение цены: " + OldData+"</p>" +  "<p>Новое значение цены: " + NewData);
-                    self.old_activity_price = self.activity_price;
+                    $('.logs').append("<p>Дата и время: " +  (new Date()).toString('dd.MM.yyyy Время: hh:mm:ss') + "</p><p>Старое значение цены: " + OldData+"</p>" +  "<p>Новое значение цены: " + NewData);
+                    self.old_activity_title = self.activity_title;
                 };
 
                 $.ajax({
@@ -113,7 +118,8 @@
                     data:
                         JSON.stringify({
                             activity: {
-                                'price': this.activity_price
+                                'price': this.activity_price,
+                                'logs' : this.logs
                             }
                         }),
                     success: function () {

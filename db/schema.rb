@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171204210018) do
+ActiveRecord::Schema.define(version: 20171205233157) do
 
   create_table "activities", force: :cascade do |t|
     t.string   "title"
@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(version: 20171204210018) do
     t.integer  "visitors_count",           default: 0
     t.integer  "price",                    default: 0
     t.integer  "rating",                   default: 0
+    t.text     "logs"
   end
 
   create_table "histories", force: :cascade do |t|
