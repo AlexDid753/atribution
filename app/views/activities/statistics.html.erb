@@ -1,27 +1,31 @@
 <div class="input-group">
 
   <%= form_tag statistic_path, :method => 'get', :class => "navbar-form", :role => "search", id: 'statistics_search' do %>
-      <%= hidden_field_tag :direction, params[:direction] %>
-      <%= hidden_field_tag :sort, params[:sort] %>
-      <p>
-        <%= text_field_tag :search, params[:search], placeholder: 'Введите название канала', :class => "form-control" %>
-      </p>
+    <%= hidden_field_tag :direction, params[:direction] %>
+    <%= hidden_field_tag :sort, params[:sort] %>
+    <p>
+      <%= text_field_tag :search, params[:search], placeholder: 'Введите название канала', :class => "form-control" %>
+    </p>
+    <br>
+    <h4>Модель атрибуции:</h4>
+    <div class="atribution_radio">
 
-      <h4>Модель атрибуции:</h4>
-      <div class="atribution_radio">
-        <%= radio_button_tag :who_win, "first", :class => 'atribution_radio' %>
-        <%= label(:who_win, "Посетитель засчитывается к каналу, с которого было совершено первое посещение(First)") %>
-        <br>
-        <%= radio_button_tag(:who_win, "last", :class => 'atribution_radio') %>
-        <%= label_tag(:who_win, "Посетитель засчитывается к каналу, с которого было совершено последнее посещение(Last)") %>
-        <br>
-        <%= radio_button_tag(:who_win, "linear", :checked => 'true', :class => 'atribution_radio') %>
-        <%= label_tag(:who_win, "Посетитель засчитывается ко всем каналам, с которых были переходы(Linear)") %>
-        <br>
-        <div class="input-group-btn">
-          <%= submit_tag "Поиск", :name => nil, :class => "btn btn-default" %>
-        </div>
+      <label for="who_win">
+        <%= radio_button_tag :who_win, "first", :class => 'atribution_radio', id:"who_win_first" %>
+        Посетитель засчитывается к каналу, с которого было совершено первое посещение(First)
+      </label>
+      <label for="who_win">
+        <%= radio_button_tag :who_win, "last", :class => 'atribution_radio', id:"who_win_last"  %>
+        Посетитель засчитывается к каналу, с которого было совершено последнее посещение(Last)
+      </label>
+      <label for="who_win">
+        <%= radio_button_tag :who_win, "linear", :class => 'atribution_radio', id:"who_win_linear"  %>
+        Посетитель засчитывается ко всем каналам, с которых были переходы(Linear)
+      </label>
+      <div class="input-group-btn">
+        <%= submit_tag "Поиск", :name => nil, :class => "btn btn-default" %>
       </div>
+    </div>
 
   <% end %>
 </div>
@@ -35,3 +39,38 @@
   <%= render 'layouts/statistics_table' %>
 </div>
 <%= will_paginate %>
+
+
+<script>
+
+    // $('#who_win_first').click(function () {
+    //     alert('клик на первом');
+    //     localStorage.setItem('who_win_first', checked);
+    // });
+    //
+    // $('#who_win_last').click(function () {
+    //
+    //     localStorage.setItem('who_win_last', checked);
+    // });
+    //
+    // $('#who_win_linear').click(function () {
+    //     localStorage.setItem('who_win_linear', checked);
+    // });
+
+    var url = new URL(location.href);
+    var who_win_radio = url.searchParams.get("who_win");
+
+    switch (who_win_radio) {
+        case 'first':
+            $('#who_win_first').prop('checked', true);
+            break;
+        case 'last':
+            $('#who_win_last').prop('checked', true);
+            break;
+        case 'linear':
+            $('#who_win_linear').prop('checked', true);
+            break;
+    }
+
+
+</script>

@@ -28,9 +28,27 @@
 //     $('#statistics_search')[0].reset();
 // });
 
-$(".atribution_radio > input").click(function(){
-    $('#statistics_search')[0].reset();
+
+
+$('#who_win_first').click(function () {
+    $('#who_win_linear').append('<p>Меня тут не было!</p>');
+
+    localStorage.setItem('who_win_first', checked);
 });
+
+$('#who_win_last').click(function () {
+
+    localStorage.setItem('who_win_last', checked);
+});
+
+$('#who_win_linear').click(function () {
+
+    localStorage.setItem('who_win_linear', checked);
+});
+
+ $('#who_win_first').prop('checked', localStorage['who_win_first'] == 'true');
+ $('#who_win_last').prop('checked', localStorage['who_win_last'] == 'true');
+ $('#who_win_linear').prop('checked', localStorage['who_win_linear'] == 'true');
 
 $(document).ready(function(){
 
@@ -57,4 +75,6 @@ $(document).ready(function(){
         current_slider.find(".h-carousel-items").animate({left: "0px"}, 200); // за 200 милисекунд набор элементов плавно переместится в исходную нулевую точку
         current_slider.find(".b-carousel-block").eq(-1).remove(); // выбираем последний элемент карусели и удаляем его
     });
+
+
 });
