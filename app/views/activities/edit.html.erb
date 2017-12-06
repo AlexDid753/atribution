@@ -2,7 +2,7 @@
 
 <div class="row">
   <div class="col-md-4">
-    <%= form_for @activity, :remote => true do |f|  %>
+    <%= form_for @activity, :remote => true do |f| %>
       <%= f.label :title, "Название" %>
       <div class="form-group">
         <input v-on:blur="onBlur_title" v-model="activity_title" value="<%= @activity.title %>" id="activity_title" type="text" class="form-group form-control" name="activity[title]"
@@ -14,7 +14,7 @@
       </div>
 
 
-      <%= f.submit "Сохранить изменения", class: "btn btn-primary"  do%>
+      <%= f.submit "Сохранить изменения", class: "btn btn-primary" do %>
         <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
       <% end %>
     <% end %>
@@ -22,26 +22,28 @@
   </div>
 
   <h4>Логи</h4>
-  <div class="col-md-6 logs" id="logs_window">
-    <%= @activity.logs %>
+  <div class="col-md-6 logs" v-model="LogsHTML" id="logs_window" v-on="change:onChange">
+    <%=raw @activity.logs %>
   </div>
 
 </div>
 
 
 <script>
+
+
     var app1 = new Vue({
         el: '#activity_title',
         data: {
             old_activity_title: activity_title.value,
             activity_title: '<%= @activity.title %>',
-            logs_html: function(){
-                var content = document.getElementById("logs_window").innerHTML;
-                return content;
+            result_logs: function(){
+               return document.getElementById('logs_window').innerHTML;
             }
+
         },
         methods: {
-            onBlur_title: function() {
+            onBlur_title: function () {
                 //alert(this.activity_title);
                 var self = this;
                 var OldData = self.old_activity_title;
@@ -50,7 +52,6 @@
                     $('.logs').append("<p>Дата и время: " + (new Date()).toString('dd.MM.yyyy Время: hh:mm:ss') + "</p><p>Старое значение цены: " + OldData + "</p>" + "<p>Новое значение цены: " + NewData);
                     self.old_activity_title = self.activity_title;
                 };
-
                 $.ajax({
                     type: "PATCH",
                     headers: {
@@ -63,7 +64,8 @@
                         JSON.stringify({
                             activity: {
                                 'title': this.activity_title,
-                                'logs': this.logs_html()                            }
+                                'logs': this.result_logs()
+                            }
                         }),
                     success: function () {
                         //alert( "Data Saved: " + json );
@@ -82,11 +84,15 @@
                 });
             },
 
+
+
         },
+        computed: {},
+        watch: {
+            // эта функция запускается при любом изменении вопроса
 
-        computed: {
 
-        }
+        },
 
     })
     var app2 = new Vue({
@@ -97,13 +103,13 @@
 
         },
         methods: {
-            onBlur_price: function(){
+            onBlur_price: function () {
                 //alert(this.activity_price);
                 var self = this;
                 var OldData = self.old_activity_price;
                 var NewData = self.activity_price;
-                var PrintLogs = function(){
-                    $('.logs').append("<p>Дата и время: " +  (new Date()).toString('dd.MM.yyyy Время: hh:mm:ss') + "</p><p>Старое значение цены: " + OldData+"</p>" +  "<p>Новое значение цены: " + NewData);
+                var PrintLogs = function () {
+                    $('.logs').append("<p>Дата и время: " + (new Date()).toString('dd.MM.yyyy Время: hh:mm:ss') + "</p><p>Старое значение цены: " + OldData + "</p>" + "<p>Новое значение цены: " + NewData);
                     self.old_activity_price = self.activity_price;
 
                 };
@@ -125,14 +131,14 @@
                         }),
                     success: function () {
                         //alert( "Data Saved: " + json );
-                        if (OldData != NewData){
+                        if (OldData != NewData) {
                             PrintLogs();
                             OldData = NewData;
                         }
                     },
-                    error: function(xhr, textStatus, error) {
+                    error: function (xhr, textStatus, error) {
                         //alert(xhr.statusText+""+textStatus+""+error);
-                        if (OldData != NewData){
+                        if (OldData != NewData) {
                             PrintLogs();
                             OldData = NewData;
                         }
@@ -147,7 +153,6 @@
             }
         }
     })
-
 
 
 </script>
