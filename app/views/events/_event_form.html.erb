@@ -1,0 +1,20 @@
+<%= form_for @event do |f| %>
+
+  <div class="date">
+    <%= f.text_area :date, placeholder: "Введите дату" %>
+  </div>
+  <div class="time">
+    <<%= f.text_area :time, placeholder: "Введите время" %>
+  </div>
+    <%= f.submit "Создать", class: "btn btn-primary" %>
+<% end %>
+
+
+<script type="text/javascript">
+    // $('#micropost_picture').bind('change', function() {
+    //     var size_in_megabytes = this.files[0].size/1024/1024;
+    //     if (size_in_megabytes > 5) {
+    //         alert('Maximum file size is 5MB. Please choose a smaller file.');
+    //     }
+    // });
+</script>

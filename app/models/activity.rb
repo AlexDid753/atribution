@@ -3,6 +3,7 @@ class Activity < ActiveRecord::Base
   has_many :visitors, through: :histories, counter_cache: true
   has_many :mediums, through: :histories
   has_many :histories, foreign_key: 'activity_id'
+  has_many :dates
 
   def proceeds
     (arpu * visitors.count).round
@@ -75,5 +76,6 @@ class Activity < ActiveRecord::Base
       all
     end
   end
+
 end
 

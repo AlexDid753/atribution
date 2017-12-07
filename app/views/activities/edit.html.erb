@@ -33,6 +33,16 @@
 
 </div>
 
+<section class="event_form">
+  <div class="row">
+    <div class="col-md-4">
+
+      <%= render 'events/event_form' %>
+
+    </div>
+
+  </div>
+</section>
 
 <script>
     var app1 = new Vue({
@@ -69,30 +79,21 @@
                         break;
                 }
             }
-
         },
         methods: {
             onBlur_title: function () {
-                //alert(this.activity_title);
-                
                 var OldData = this.old_activity_title;
                 var NewData = this.activity_title;
                 var Logs = this.PrintLogs('title', OldData, NewData);
                 var SendData1 = this.SendData(OldData, NewData);
-
             },
             onBlur_price: function () {
-                //alert(this.activity_price);
-                
                 var OldData = this.old_activity_price;
                 var NewData = this.activity_price;
                 var Logs = this.PrintLogs('price', OldData, NewData);
                 var SendData1 = this.SendData(OldData, NewData);
-
             }, //todo доделать функцию на примере предыдущей
             onBlur_city: function () {
-                //alert(this.activity_title);
-                
                 var OldData = this.old_activity_city;
                 var NewData = this.activity_city;
                 var Logs = this.PrintLogs('city', OldData, NewData);
@@ -120,10 +121,6 @@
                     //error: this.update_atribut(old_activity_atribut,new_activity_atribut)
                 });
             }
-
         }
-
     })
-
-
 </script>
