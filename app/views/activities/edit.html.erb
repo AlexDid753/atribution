@@ -51,21 +51,21 @@
                 switch (activity_atribut) {
                     case 'title':
                         $('.logs').prepend("<p>Дата и время: " + (new Date()).toString('dd.MM.yyyy Время: hh:mm:ss') + "</p><p>Старое значение названия: " + OldData + "</p>" + "<p>Новое значение названия: " + NewData);
-                        self.old_activity_title = self.activity_title;
+                        this.old_activity_title = this.activity_title;
                         break;
                     case 'price':
                         $('.logs').prepend("<p>Дата и время: " + (new Date()).toString('dd.MM.yyyy Время: hh:mm:ss') + "</p><p>Старое значение цены: " + OldData + "</p>" + "<p>Новое значение цены: " + NewData);
-                        self.old_activity_price = self.activity_price;
+                        this.old_activity_price = this.activity_price;
                         break;
                     case 'city':
                         $('.logs').prepend("<p>Дата и время: " + (new Date()).toString('dd.MM.yyyy Время: hh:mm:ss') + "</p><p>Старое значение города: " + OldData + "</p>" + "<p>Новое значение города: " + NewData);
-                        self.old_activity_city = self.activity_city;
+                        this.old_activity_city = this.activity_city;
                         break;
                     default:
                         $('.logs').prepend("<p>Дата и время: " + (new Date()).toString('dd.MM.yyyy Время: hh:mm:ss') + "</p><p>Старое значение атрибута: " + OldData + "</p>" + "<p>Новое значение атрибута: " + NewData);
-                        self.old_activity_title = self.activity_title;
-                        self.old_activity_price = self.activity_price;
-                        self.old_activity_city = self.activity_city;
+                        this.old_activity_title = this.activity_title;
+                        this.old_activity_price = this.activity_price;
+                        this.old_activity_city = this.activity_city;
                         break;
                 }
             }
@@ -74,29 +74,29 @@
         methods: {
             onBlur_title: function () {
                 //alert(this.activity_title);
-                var self = this;
-                var OldData = self.old_activity_title;
-                var NewData = self.activity_title;
-                var Logs = self.PrintLogs('title', OldData, NewData);
-                var SendData1 = self.SendData(OldData, NewData);
+                
+                var OldData = this.old_activity_title;
+                var NewData = this.activity_title;
+                var Logs = this.PrintLogs('title', OldData, NewData);
+                var SendData1 = this.SendData(OldData, NewData);
 
             },
             onBlur_price: function () {
                 //alert(this.activity_price);
-                var self = this;
-                var OldData = self.old_activity_price;
-                var NewData = self.activity_price;
-                var Logs = self.PrintLogs('price', OldData, NewData);
-                var SendData1 = self.SendData(OldData, NewData);
+                
+                var OldData = this.old_activity_price;
+                var NewData = this.activity_price;
+                var Logs = this.PrintLogs('price', OldData, NewData);
+                var SendData1 = this.SendData(OldData, NewData);
 
             }, //todo доделать функцию на примере предыдущей
             onBlur_city: function () {
                 //alert(this.activity_title);
-                var self = this;
-                var OldData = self.old_activity_city;
-                var NewData = self.activity_city;
-                var Logs = self.PrintLogs('city', OldData, NewData);
-                var SendData1 = self.SendData(OldData, NewData);
+                
+                var OldData = this.old_activity_city;
+                var NewData = this.activity_city;
+                var Logs = this.PrintLogs('city', OldData, NewData);
+                var SendData1 = this.SendData(OldData, NewData);
             },
             SendData: function (old_activity_atribut, new_activity_atribut) {
                 $.ajax({
