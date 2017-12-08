@@ -1,30 +1,36 @@
 <h1>Редактирование экскурсии</h1>
-
+<% flash.each do |key, value| %>
+  <div class="alert alert-<%= key %>"><%= value %></div>
+<% end %>
 <div class="row">
-  <div class="col-md-4" id="activity_edit_form">
-    <%= form_for @activity, :remote => true do |f| %>
-      <%= f.label :title, "Название" %>
-      <div class="form-group">
-        <input v-on:blur="onBlur_title" v-model="activity_title" value="<%= @activity.title %>" id="activity_title" type="text" class="form-group form-control" name="activity[title]"
-               placeholder="Введите название">
-      </div>
-      <%= f.label :price, "Цена" %>
-      <div class="form-group">
-        <input v-on:blur="onBlur_price" v-model="activity_price" value="<%= @activity.price %>" id="activity_price" type="text" class="form-group form-control" name="activity[price]" placeholder="Введите название">
-      </div>
+  <div class="col-md-4">
+    <div id="activity_edit_form">
+      <%= form_for @activity, :remote => true do |f| %>
 
-      <%= f.label :city, "Город" %>
-      <div class="form-group">
-        <input v-on:blur="onBlur_city" v-model="activity_city" value="<%= @activity.city %>" id="activity_city" type="text" class="form-group form-control" name="activity[city]" placeholder="Введите название">
-      </div>
+        <div class="form-group">
+          <%= f.label :title, "Название" %>
+          <input v-on:blur="onBlur_title" v-model="activity_title" value="<%= @activity.title %>" id="activity_title" type="text" class="form-group form-control" name="activity[title]" placeholder="Введите название">
 
+          <%= f.label :price, "Цена" %>
+          <input v-on:blur="onBlur_price" v-model="activity_price" value="<%= @activity.price %>" id="activity_price" type="text" class="form-group form-control" name="activity[price]" placeholder="Введите название">
 
-      <%= f.submit "Сохранить изменения", class: "btn btn-primary" do %>
-        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+          <%= f.label :city, "Город" %>
+          <input v-on:blur="onBlur_city" v-model="activity_city" value="<%= @activity.city %>" id="activity_city" type="text" class="form-group form-control" name="activity[city]" placeholder="Введите название">
+
+          <%= f.submit "Сохранить изменения", class: "btn btn-primary" do %>
+            <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+          <% end %>
+        </div>
       <% end %>
-    <% end %>
+    </div>
 
+
+    <h4>Указание даты и времени</h4>
+    <div class="well" id="event_form">
+      <%= render 'events/event_form' %>
+    </div>
   </div>
+
 
   <h4>Логи</h4>
   <div class="col-md-6 logs" v-model="LogsHTML" id="logs_window" v-on="change:onChange">
@@ -33,16 +39,6 @@
 
 </div>
 
-<section class="event_form">
-  <div class="row">
-    <div class="col-md-4">
-
-      <%= render 'events/event_form' %>
-
-    </div>
-
-  </div>
-</section>
 
 <script>
     var app1 = new Vue({
