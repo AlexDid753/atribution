@@ -17,13 +17,14 @@ Medium.create!(title: 'affiliate')
 Medium.create!(title: 'email')
 
 100.times do
-  title = Faker::Lorem.sentence + Faker::Address.city
+  title = Faker::Lorem.sentence
   arpu = rand(10..30)
   Activity.create!(
     title: title,
     arpu: arpu,
     price: rand(200..2000),
-    rating: rand(1..5)
+    rating: rand(1..5),
+    city:  Faker::Address.city
   )
 end
 
