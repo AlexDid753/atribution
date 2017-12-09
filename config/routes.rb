@@ -4,11 +4,8 @@ Rails.application.routes.draw do
   root 'activities#index'
   get 'statistic' => 'activities#statistics'
 
-  resources :activities do
-    member do
-      resources :events, only: [:create, :destroy]
-    end
-  end
+  resources :events, only: [:index, :destroy, :create]
+  resources :activities
 
   resources :mediums
   # The priority is based upon order of creation: first created -> highest priority.

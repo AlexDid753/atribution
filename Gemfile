@@ -4,9 +4,8 @@ gem 'newrelic_rpm'
 gem 'puma'
 gem 'rails', '4.2.9'
 gem 'rake', '< 11.0'
-gem 'bootstrap-datepicker-rails'
-gem 'bootstrap-timepicker-rails-addon', :require => 'bootstrap-timepicker-rails-addon',
-    :git => 'git://github.com/ywjno/bootstrap-timepicker-rails-addon.git'
+gem 'simple_calendar'
+gem 'recurring_select'
 
 
 group :development, :test do

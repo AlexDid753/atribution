@@ -13,8 +13,8 @@
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
-//= require bootstrap-datepicker
-//= require bootstrap-timepicker
+
+//= require recurring_select
 //= require_tree .
 // $(function () {
 //     $("[type=radio],.pagination a").live("click", function () {

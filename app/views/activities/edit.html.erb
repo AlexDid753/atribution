@@ -1,9 +1,9 @@
 <h1>Редактирование экскурсии</h1>
 
 <div class="row">
-  <div class="col-md-4">
+  <div class="col-md-6">
     <div id="activity_edit_form">
-      <%= form_for @activity, :remote => true do |f| %>
+      <%= form_for @activity, remote: true do |f| %>
 
         <div class="form-group">
           <%= f.label :title, "Название" %>
@@ -20,18 +20,49 @@
           <% end %>
         </div>
       <% end %>
-    </div>
 
 
-    <h4>Указание даты и времени</h4>
-    <div class="well" id="event_form">
-      <%= render 'events/event_form' %>
+
+      <h4>Указание даты и времени</h4>
+      <div class="well">
+
+        <%= form_for @event, remote: true do |f| %>
+
+
+          <%= f.hidden_field :activity_id, value: @activity.id %>
+
+          <div class="field">
+            <%= f.label :start_time, 'Дата и время' %>
+            <%= f.datetime_select :start_time %>
+          </div>
+
+          <div class="field">
+            <%= f.label :recurring, 'Рассписание повторения' %>
+            <%= f.select_recurring :recurring %>
+          </div>
+
+          <%= f.submit "Указать время", class: "btn btn-primary", 'v-on:click':"onClick_event_datetime_form"  %>
+          <!--
+              <input v-on:click="onClick_event_datetime_form" value="Указать время" class="btn btn-primary" type="button"/>
+          -->
+        <% end %>
+        <%= link_to 'Посмотреть рассписание', events_path  %>
+
+        <script type="text/javascript">
+            // $(document).ready(function () {
+            //     $('.datepicker').datepicker();
+            //     $('#timepicker').timepicker();
+            // });
+        </script>
+      </div>
+
+
     </div>
   </div>
 
 
   <h4>Логи</h4>
-  <div class="col-md-6 logs" v-model="LogsHTML" id="logs_window" v-on="change:onChange">
+  <div class="col-md-4 logs" v-model="LogsHTML" id="logs_window" v-on="change:onChange">
     <%= raw @activity.logs %>
   </div>
 
@@ -48,9 +79,18 @@
             activity_price: '<%= @activity.price %>',
             old_activity_city: activity_city.value,
             activity_city: '<%= @activity.city %>',
+
+            /*данные для отправки данных для модели event*/
+            activity_id: '<%= @activity.id %>',
+
             result_logs: function () {
                 return document.getElementById('logs_window').innerHTML;
             },
+
+            PrintLogsDatetime: function () {
+                $('.logs').prepend("<p>Дата и время: " + (new Date()).toString('dd.MM.yyyy Время: hh:mm:ss') + "</p><p>Дата и рассписание добавлены! " + "</p>");
+            },
+
             PrintLogs: function (activity_atribut, OldData, NewData) {
                 switch (activity_atribut) {
                     case 'title':
@@ -75,6 +115,9 @@
             }
         },
         methods: {
+            test_func: function () {
+                alert("Привет");
+            },
             onBlur_title: function () {
                 var OldData = this.old_activity_title;
                 var NewData = this.activity_title;
@@ -92,6 +135,13 @@
                 var NewData = this.activity_city;
                 var Logs = this.PrintLogs('city', OldData, NewData);
                 var SendData1 = this.SendData(OldData, NewData);
+            },
+            onClick_event_datetime_form: function () {
+                var activity_id = this.activity_id;
+                var start_time = this.start_time;
+                var recurring = this.recurring;
+                var Logs = this.PrintLogsDatetime(); // todo добавить параметры
+                var SendData1 = this.SendData()
             },
             SendData: function (old_activity_atribut, new_activity_atribut) {
                 $.ajax({
@@ -114,7 +164,29 @@
                     //success: this.update_atribut(old_activity_atribut,new_activity_atribut),
                     //error: this.update_atribut(old_activity_atribut,new_activity_atribut)
                 });
+            },
+            SendData_event: function (activity_id, start_time, recurring) {
+                $.ajax({
+                    type: "POST",
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                        'Content-Type': 'application/json; charset=utf-8'
+                    },
+                    dataType: "json",
+                    url: '/events',
+                    data:
+                        JSON.stringify({
+                            event: {
+                                'activity_id': this.activity_id,
+                                'start_time': this.start_time,
+                                'recurring': this.recurring
+                            }
+                        })
+
+                });
             }
         }
     })
+
+
 </script>

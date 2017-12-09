@@ -16,7 +16,7 @@ class ActivitiesController < ApplicationController
 
   def edit
     @activity = Activity.find(params[:id])
-    @event = Event.new
+    @event = Event.new(:activity=>@activity)
   end
 
   def update

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171207135752) do
+ActiveRecord::Schema.define(version: 20171209114019) do
 
   create_table "activities", force: :cascade do |t|
     t.string   "title"
@@ -25,10 +25,17 @@ ActiveRecord::Schema.define(version: 20171207135752) do
     t.string   "city"
   end
 
+  create_table "event_exceptions", force: :cascade do |t|
+    t.integer  "event_id"
+    t.datetime "time"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "events", force: :cascade do |t|
     t.integer  "activity_id"
-    t.date     "date"
-    t.time     "time"
+    t.datetime "start_time"
+    t.text     "recurring"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
   end
