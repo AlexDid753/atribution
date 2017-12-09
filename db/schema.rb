@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171205233157) do
+ActiveRecord::Schema.define(version: 20171209114019) do
 
   create_table "activities", force: :cascade do |t|
     t.string   "title"
@@ -22,6 +22,22 @@ ActiveRecord::Schema.define(version: 20171205233157) do
     t.integer  "price",                    default: 0
     t.integer  "rating",                   default: 0
     t.text     "logs"
+    t.string   "city"
+  end
+
+  create_table "event_exceptions", force: :cascade do |t|
+    t.integer  "event_id"
+    t.datetime "time"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "events", force: :cascade do |t|
+    t.integer  "activity_id"
+    t.datetime "start_time"
+    t.text     "recurring"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
   create_table "histories", force: :cascade do |t|

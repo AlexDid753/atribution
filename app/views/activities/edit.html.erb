@@ -1,29 +1,69 @@
 <h1>Редактирование экскурсии</h1>
 
 <div class="row">
-  <div class="col-md-4">
-    <%= form_for @activity, :remote => true do |f|  %>
-      <%= f.label :title, "Название" %>
-      <div class="form-group">
-        <input v-on:blur="onBlur_title" v-model="activity_title" value="<%= @activity.title %>" id="activity_title" type="text" class="form-group form-control" name="activity[title]"
-               placeholder="Введите название">
-      </div>
-      <%= f.label :price, "Цена" %>
-      <div class="form-group">
-        <input v-on:blur="onBlur_price" v-model="activity_price" value="<%= @activity.price %>" id="activity_price" type="text" class="form-group form-control" name="activity[price]" placeholder="Введите название">
-      </div>
+  <div class="col-md-6">
+    <div id="activity_edit_form">
+      <%= form_for @activity, remote: true do |f| %>
 
+        <div class="form-group">
+          <%= f.label :title, "Название" %>
+          <input v-on:blur="onBlur_title" v-model="activity_title" value="<%= @activity.title %>" id="activity_title" type="text" class="form-group form-control" name="activity[title]" placeholder="Введите название">
 
-      <%= f.submit "Сохранить изменения", class: "btn btn-primary"  do%>
-        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+          <%= f.label :price, "Цена" %>
+          <input v-on:blur="onBlur_price" v-model="activity_price" value="<%= @activity.price %>" id="activity_price" type="text" class="form-group form-control" name="activity[price]" placeholder="Введите название">
+
+          <%= f.label :city, "Город" %>
+          <input v-on:blur="onBlur_city" v-model="activity_city" value="<%= @activity.city %>" id="activity_city" type="text" class="form-group form-control" name="activity[city]" placeholder="Введите название">
+
+          <%= f.submit "Сохранить изменения", class: "btn btn-primary" do %>
+            <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+          <% end %>
+        </div>
       <% end %>
-    <% end %>
 
+
+
+      <h4>Указание даты и времени</h4>
+      <div class="well">
+
+        <%= form_for @event, remote: true do |f| %>
+
+
+          <%= f.hidden_field :activity_id, value: @activity.id %>
+
+          <div class="field">
+            <%= f.label :start_time, 'Дата и время' %>
+            <%= f.datetime_select :start_time %>
+          </div>
+
+          <div class="field">
+            <%= f.label :recurring, 'Рассписание повторения' %>
+            <%= f.select_recurring :recurring %>
+          </div>
+
+          <%= f.submit "Указать время", class: "btn btn-primary", 'v-on:click':"onClick_event_datetime_form"  %>
+          <!--
+              <input v-on:click="onClick_event_datetime_form" value="Указать время" class="btn btn-primary" type="button"/>
+          -->
+        <% end %>
+        <%= link_to 'Посмотреть рассписание', events_path  %>
+
+        <script type="text/javascript">
+            // $(document).ready(function () {
+            //     $('.datepicker').datepicker();
+            //     $('#timepicker').timepicker();
+            // });
+        </script>
+      </div>
+
+
+    </div>
   </div>
 
+
   <h4>Логи</h4>
-  <div class="col-md-6 logs">
-    <%= @activity.logs %>
+  <div class="col-md-4 logs" v-model="LogsHTML" id="logs_window" v-on="change:onChange">
+    <%= raw @activity.logs %>
   </div>
 
 </div>
@@ -31,78 +71,79 @@
 
 <script>
     var app1 = new Vue({
-        el: '#activity_title',
+        el: '#activity_edit_form',
         data: {
             old_activity_title: activity_title.value,
-            activity_title: '<%= @activity.title %>'
-        },
-        methods: {
-            onBlur_title: function(){
-                //alert(this.activity_title);
-                var self = this;
-                var OldData = self.old_activity_title;
-                var NewData = self.activity_title;
-                var PrintLogs = function(){
-                    $('.logs').append("<p>Дата и время: " +  (new Date()).toString('dd.MM.yyyy Время: hh:mm:ss') + "</p><p>Старое значение цены: " + OldData+"</p>" +  "<p>Новое значение цены: " + NewData);
-                    self.old_activity_title = self.activity_title;
-                };
-
-                $.ajax({
-                    type: "PATCH",
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-                        'Content-Type': 'application/json; charset=utf-8'
-                    },
-                    dataType: "json",
-                    url: '/activities/' + <%= params[:id] %>,
-                    data:
-                        JSON.stringify({
-                            activity: {
-                                'title': this.activity_title
-                            }
-                        }),
-                    success: function () {
-                        //alert( "Data Saved: " + json );
-                        if (OldData != NewData){
-                            PrintLogs();
-                            OldData = NewData;
-                        }
-                    },
-                    error: function(xhr, textStatus, error) {
-                        //alert(xhr.statusText+""+textStatus+""+error);
-                        if (OldData != NewData){
-                            PrintLogs();
-                            OldData = NewData;
-                        }
-                    }
-                });
-
-            },
-            computed: {
-                old_activity_title: function () {
-                    return old_activity_title = self.activity_title;
-                }
-            }
-        }
-
-    })
-    var app2 = new Vue({
-        el: '#activity_price',
-        data: {
+            activity_title: '<%= @activity.title %>',
             old_activity_price: activity_price.value,
-            activity_price: '<%= @activity.price %>'
+            activity_price: '<%= @activity.price %>',
+            old_activity_city: activity_city.value,
+            activity_city: '<%= @activity.city %>',
+
+            /*данные для отправки данных для модели event*/
+            activity_id: '<%= @activity.id %>',
+
+            result_logs: function () {
+                return document.getElementById('logs_window').innerHTML;
+            },
+
+            PrintLogsDatetime: function () {
+                $('.logs').prepend("<p>Дата и время: " + (new Date()).toString('dd.MM.yyyy Время: hh:mm:ss') + "</p><p>Дата и рассписание добавлены! " + "</p>");
+            },
+
+            PrintLogs: function (activity_atribut, OldData, NewData) {
+                switch (activity_atribut) {
+                    case 'title':
+                        $('.logs').prepend("<p>Дата и время: " + (new Date()).toString('dd.MM.yyyy Время: hh:mm:ss') + "</p><p>Старое значение названия: " + OldData + "</p>" + "<p>Новое значение названия: " + NewData);
+                        this.old_activity_title = this.activity_title;
+                        break;
+                    case 'price':
+                        $('.logs').prepend("<p>Дата и время: " + (new Date()).toString('dd.MM.yyyy Время: hh:mm:ss') + "</p><p>Старое значение цены: " + OldData + "</p>" + "<p>Новое значение цены: " + NewData);
+                        this.old_activity_price = this.activity_price;
+                        break;
+                    case 'city':
+                        $('.logs').prepend("<p>Дата и время: " + (new Date()).toString('dd.MM.yyyy Время: hh:mm:ss') + "</p><p>Старое значение города: " + OldData + "</p>" + "<p>Новое значение города: " + NewData);
+                        this.old_activity_city = this.activity_city;
+                        break;
+                    default:
+                        $('.logs').prepend("<p>Дата и время: " + (new Date()).toString('dd.MM.yyyy Время: hh:mm:ss') + "</p><p>Старое значение атрибута: " + OldData + "</p>" + "<p>Новое значение атрибута: " + NewData);
+                        this.old_activity_title = this.activity_title;
+                        this.old_activity_price = this.activity_price;
+                        this.old_activity_city = this.activity_city;
+                        break;
+                }
+            }
         },
         methods: {
-            onBlur_price: function(){
-                //alert(this.activity_price);
-                var self = this;
-                var OldData = self.old_activity_price;
-                var NewData = self.activity_price;
-                var PrintLogs = function(){
-                    $('.logs').append("<p>Дата и время: " +  (new Date()).toString('dd.MM.yyyy Время: hh:mm:ss') + "</p><p>Старое значение цены: " + OldData+"</p>" +  "<p>Новое значение цены: " + NewData);
-                    self.old_activity_price = self.activity_price;
-                };
-
+            test_func: function () {
+                alert("Привет");
+            },
+            onBlur_title: function () {
+                var OldData = this.old_activity_title;
+                var NewData = this.activity_title;
+                var Logs = this.PrintLogs('title', OldData, NewData);
+                var SendData1 = this.SendData(OldData, NewData);
+            },
+            onBlur_price: function () {
+                var OldData = this.old_activity_price;
+                var NewData = this.activity_price;
+                var Logs = this.PrintLogs('price', OldData, NewData);
+                var SendData1 = this.SendData(OldData, NewData);
+            }, //todo доделать функцию на примере предыдущей
+            onBlur_city: function () {
+                var OldData = this.old_activity_city;
+                var NewData = this.activity_city;
+                var Logs = this.PrintLogs('city', OldData, NewData);
+                var SendData1 = this.SendData(OldData, NewData);
+            },
+            onClick_event_datetime_form: function () {
+                var activity_id = this.activity_id;
+                var start_time = this.start_time;
+                var recurring = this.recurring;
+                var Logs = this.PrintLogsDatetime(); // todo добавить параметры
+                var SendData1 = this.SendData()
+            },
+            SendData: function (old_activity_atribut, new_activity_atribut) {
                 $.ajax({
                     type: "PATCH",
                     headers: {
@@ -114,31 +155,38 @@
                     data:
                         JSON.stringify({
                             activity: {
-                                'price': this.activity_price
+                                'title': this.activity_title,
+                                'price': this.activity_price,
+                                'logs': this.result_logs(),
+                                'city': this.activity_city
                             }
                         }),
-                    success: function () {
-                        //alert( "Data Saved: " + json );
-                        if (OldData != NewData){
-                            PrintLogs();
-                            OldData = NewData;
-                        }
-                    },
-                    error: function(xhr, textStatus, error) {
-                        //alert(xhr.statusText+""+textStatus+""+error);
-                        if (OldData != NewData){
-                            PrintLogs();
-                            OldData = NewData;
-                        }
-                    }
+                    //success: this.update_atribut(old_activity_atribut,new_activity_atribut),
+                    //error: this.update_atribut(old_activity_atribut,new_activity_atribut)
                 });
-
             },
-            computed: {
-                old_activity_price: function () {
-                    return old_activity_price = self.activity_price;
-                }
+            SendData_event: function (activity_id, start_time, recurring) {
+                $.ajax({
+                    type: "POST",
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                        'Content-Type': 'application/json; charset=utf-8'
+                    },
+                    dataType: "json",
+                    url: '/events',
+                    data:
+                        JSON.stringify({
+                            event: {
+                                'activity_id': this.activity_id,
+                                'start_time': this.start_time,
+                                'recurring': this.recurring
+                            }
+                        })
+
+                });
             }
         }
     })
+
+
 </script>

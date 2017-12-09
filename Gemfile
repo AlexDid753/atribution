@@ -4,6 +4,10 @@ gem 'newrelic_rpm'
 gem 'puma'
 gem 'rails', '4.2.9'
 gem 'rake', '< 11.0'
+gem 'simple_calendar'
+gem 'recurring_select'
+
+
 group :development, :test do
   gem 'byebug'
   gem 'rspec-rails', '~> 2.14', '>= 2.14.2'
