@@ -4,7 +4,6 @@
   <div class="col-md-6">
     <div id="activity_edit_form">
       <%= form_for @activity, remote: true do |f| %>
-
         <div class="form-group">
           <%= f.label :title, "Название" %>
           <input v-on:blur="onBlur_title" v-model="activity_title" value="<%= @activity.title %>" id="activity_title" type="text" class="form-group form-control" name="activity[title]" placeholder="Введите название">
@@ -25,7 +24,6 @@
 
       <h4>Указание даты и времени</h4>
       <div class="well">
-
         <%= form_for @event, remote: true do |f| %>
 
 
@@ -187,6 +185,4 @@
             }
         }
     })
-
-
 </script>

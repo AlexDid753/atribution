@@ -7,14 +7,18 @@
     <th>Выручка</th>
   </tr>
 
-  <% @activities.each do |activity| %>
-      <tr>
-        <th><%= activity.id %></th>
-        <th><%= link_to activity.title, activity %></th>
-        <th><%= activity.medium_title(params[:who_win],params[:search]) %></th>
-        <th><%= activity.mediums_count(params[:who_win],params[:search]) %></th>
-        <th><%= activity.mediums_proceed(params[:who_win]) %></th>
-      </tr>
+  <%  @activities.each do |activity| %>
+
+    <%if activity.filter(params[:who_win], params[:search]) %>
+        <tr>
+          <th><%= activity.id %></th>
+          <th><%= link_to activity.title, activity %></th>
+          <th><%= activity.medium_title(params[:who_win]) %></th>
+          <th><%= activity.mediums_count(params[:who_win], params[:search]) %></th>
+          <th><%= activity.mediums_proceed(params[:who_win]) %></th>
+        </tr>
+    <% end %>
+
   <% end %>
 
 </table>
