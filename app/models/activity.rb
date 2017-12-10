@@ -38,9 +38,9 @@ class Activity < ActiveRecord::Base
         when 'first'
           a = find_histories.first.medium_id.to_s
           mediums.where(id: a).first.title
-          #mediums.select{|ch| ch.id == find_histories.first.medium_id.to_s}.title
+
         when 'last'
-          #mediums.select{|ch| ch.id == find_histories.last.medium_id.to_s}.title
+
           a = find_histories.last.medium_id.to_s
           mediums.where(id: a).first.title
         else
@@ -48,36 +48,6 @@ class Activity < ActiveRecord::Base
       end
   end
 
-
-# def medium_title(who_win = first, search = '')
-#   if search.present?
-#     splited = search.split("|").map.with_index.each_with_object({}) { |(i, v), h| h[:"#{i}"] = "%#{v}%" }
-#     criteria = splited.keys.map { |key| "mediums.title LIKE \"#{key}\" " }.join(' OR ')
-#     mediums.where(criteria).first.title
-#   elsif who_win == 'first'
-#     mediums.find_by(id: find_histories.first.medium_id.to_s).title
-#   elsif who_win == 'last'
-#     mediums.find_by(id: find_histories.last.medium_id.to_s).title
-#   else
-#     'Все каналы'
-#   end
-#
-#   # if search.present?
-#   #   splited = search.split("|").map.with_index.each_with_object({}) {|(i, v), h| h[:"#{i}"] = "%#{v}%"}
-#   #   criteria = splited.keys.map {|key| "mediums.title LIKE \"#{key}\" "}.join(' OR ')
-#   #   if who_win.present?
-#   #     case who_win
-#   #       when 'first'
-#   #         mediums.find_by(id: find_histories.first.medium_id.to_s).title
-#   #       when 'last'
-#   #         mediums.find_by(id: find_histories.last.medium_id.to_s).title
-#   #       else
-#   #         'Все каналы'
-#   #     end
-#   #
-#   #   end
-#   # end
-# end
 
   def mediums_count(who_win = first, search = '')
     if search.present?
