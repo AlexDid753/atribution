@@ -94,10 +94,9 @@ class Activity < ActiveRecord::Base
 
   def self.search(search)
     if search
-      splited = search.split("|").map.with_index.each_with_object({}) {|(i, v), h| h[:"#{i}"] = "%#{v}%"}
-      criteria = splited.keys.map {|key| "mediums.title LIKE \"#{key}\" OR activities.title LIKE \"#{key}\""}.join(' OR ')
+      splited = search.split("|")
+      criteria = splited.map {|key| "mediums.title LIKE \"%#{key}%\" OR activities.title LIKE \"%#{key}%\""}.join(' OR ')
       joins(:mediums).where(criteria).distinct
-
     else
       all
     end
@@ -105,7 +104,7 @@ class Activity < ActiveRecord::Base
 
   def self.search_by_medium(search)
     if search
-      joins(:mediums).where(mediums: {title: search})
+      joins(:mediums).where("mediums.title LIKE :search OR activities.title LIKE :search", search: "%#{search}%").distinct
     else
       all
     end
