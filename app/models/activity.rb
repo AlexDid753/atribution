@@ -37,12 +37,12 @@ class Activity < ActiveRecord::Base
       case who_win
         when 'first'
           a = find_histories.first.medium_id.to_s
-          mediums.find_by(id: a).title
+          mediums.where(id: a).first.title
           #mediums.select{|ch| ch.id == find_histories.first.medium_id.to_s}.title
         when 'last'
           #mediums.select{|ch| ch.id == find_histories.last.medium_id.to_s}.title
           a = find_histories.last.medium_id.to_s
-          mediums.find_by(id: a).title
+          mediums.where(id: a).first.title
         else
           'Все каналы'
       end
