@@ -82,7 +82,7 @@ class Activity < ActiveRecord::Base
   def mediums_count(who_win = first, search = '')
     if search.present?
       splited = search.split("|").map.with_index.each_with_object({}) {|(i, v), h| h[:"#{i}"] = "%#{v}%"}
-      criteria = splited.keys.map {|key| "mediums.title LIKE \"#{key}\" "}.join(' OR ')
+      criteria = splited.keys.map {|key| "mediums.title LIKE '#{key}' "}.join(' OR ')
       med_id = mediums.where(criteria).first.id
       History.where("medium_id = :med_id AND activity_id = :activity_id ", med_id: med_id, activity_id: id).count
     elsif who_win == 'linear'
